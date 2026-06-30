@@ -46,6 +46,8 @@ import {
 } from 'lucide-react'
 import { SplineScene } from './components/SplineScene'
 
+const assetPath = (name: string) => `${import.meta.env.BASE_URL}assets/${name}`
+
 const words = ['autonome', 'productif', 'efficace', 'stratégique', 'performant', 'créatif']
 
 const tools = [
@@ -253,7 +255,7 @@ function AnimatedMetric({ target, label, duration, prefix = '', suffix = '', dec
 function Logo({ light = false }: { light?: boolean }) {
   return (
     <a href="#top" className={`brand ${light ? 'brand--light' : ''}`} aria-label="MAJUBAH Consulting, accueil">
-      <span className="brand-mark"><img src="/assets/sigle-orange.png" alt="" /></span>
+      <span className="brand-mark"><img src={assetPath('sigle-orange.png')} alt="" /></span>
       <span className="brand-type"><b>MAJUBAH</b><small>CONSULTING</small></span>
     </a>
   )
@@ -310,7 +312,7 @@ function Hero() {
       <div className="hero-left">
         <motion.img
           className="hero-photo"
-          src="/assets/campusfinal.png"
+          src={assetPath('campusfinal.png')}
           alt="Entrée ouverte sur la salle de formation du campus MAJUBAH à Pont-Audemer"
           initial={reduce ? {} : { scale: 1.045 }}
           animate={{ scale: 1 }}
@@ -450,7 +452,7 @@ function AIOrchestra() {
               <div className="orchestra-face orchestra-face--front" aria-hidden={showChat}>
                 <motion.img
                   className="orchestra-photo"
-                  src="/assets/ai-command-center.jpg"
+                  src={assetPath('ai-command-center.jpg')}
                   alt="Professionnel orchestrant ChatGPT, Claude, Gemini, Copilot, NotebookLM, Perplexity et Mistral depuis un poste de commandement"
                   loading="lazy"
                   initial={reduce ? false : { scale: 1.09 }}
@@ -513,14 +515,14 @@ function AIOrchestra() {
                     <div className={`chat-workspace ${chatMessages.length ? 'has-messages' : ''}`}>
                       {!chatMessages.length ? (
                         <motion.div className="chat-greeting" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-                          <span><img src="/assets/sigle-orange.png" alt="Sigle MAJUBAH Consulting" /></span>
+                          <span><img src={assetPath('sigle-orange.png')} alt="Sigle MAJUBAH Consulting" /></span>
                           <h3>Bonsoir, Baudry.</h3>
                         </motion.div>
                       ) : (
                         <div className="chat-thread" aria-live="polite">
                           {chatMessages.map((message, index) => (
                             <motion.div className={`chat-bubble chat-bubble--${message.role}`} key={`${message.role}-${index}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-                              {message.role === 'assistant' && <span><img src="/assets/sigle-orange.png" alt="" /></span>}
+                              {message.role === 'assistant' && <span><img src={assetPath('sigle-orange.png')} alt="" /></span>}
                               <p>{message.text}</p>
                             </motion.div>
                           ))}
@@ -649,7 +651,7 @@ function Immersion() {
                     exit={{ opacity: 0, scale: 1.025 }}
                     transition={{ duration: .45 }}
                   >
-                    <img src="/assets/ai-workspace.jpg" alt="Aperçu de la présentation MAJUBAH" loading="lazy" />
+                    <img src={assetPath('ai-workspace.jpg')} alt="Aperçu de la présentation MAJUBAH" loading="lazy" />
                     <span className="presentation-shade" />
                     <span className="presentation-play"><i /><Play fill="currentColor" /></span>
                     <span className="presentation-label"><small>PRÉSENTATION</small><b>Lancer la vidéo</b></span>
@@ -799,7 +801,7 @@ function DigitalCampus() {
         <Reveal className="laptop-scene">
           <div className="laptop-orbit laptop-orbit--one"><i /></div><div className="laptop-orbit laptop-orbit--two"><i /></div>
           <motion.div aria-label="Aperçu du Campus IA MAJUBAH, ouverture le 30 juillet 2026" className="laptop-shell laptop-shell--preview" whileInView={{ rotateX: 0, y: 0, opacity: 1 }} initial={{ rotateX: 10, y: 50, opacity: 0 }} whileHover={{ rotateY: -2.5, rotateX: 1.5, y: -8 }} transition={{ duration: .8, ease: [0.22,1,0.36,1] }} viewport={{ once: true }}>
-            <div className="laptop-camera" /><div className="laptop-screen"><img src="/assets/campus-dashboard.jpg" alt="Aperçu du Campus numérique MAJUBAH" loading="lazy" /><span className="laptop-screen-shade" /><span className="laptop-screen-scan" /><div className="laptop-online"><i /> CAMPUS EN PRÉPARATION</div><div className="campus-screen-cta"><span>OUVERTURE LE 30 JUILLET</span><i><Clock3 /></i></div></div><div className="laptop-base"><span /></div>
+            <div className="laptop-camera" /><div className="laptop-screen"><img src={assetPath('campus-dashboard.jpg')} alt="Aperçu du Campus numérique MAJUBAH" loading="lazy" /><span className="laptop-screen-shade" /><span className="laptop-screen-scan" /><div className="laptop-online"><i /> CAMPUS EN PRÉPARATION</div><div className="campus-screen-cta"><span>OUVERTURE LE 30 JUILLET</span><i><Clock3 /></i></div></div><div className="laptop-base"><span /></div>
           </motion.div>
           <CampusProgressCounter />
           <div className="live-pill"><span><i /> LIVE</span><b>Atelier à 14h</b><small>Automatiser vos workflows</small></div>
@@ -918,7 +920,7 @@ function Trainer() {
           <div className="trainer-orbit trainer-orbit--one" /><div className="trainer-orbit trainer-orbit--two" />
           <div className="trainer-shape" />
           <motion.div className="trainer-photo-frame" whileHover={{ y: -8, rotateY: -2, rotateX: 1.5 }} transition={{ type: 'spring', stiffness: 180, damping: 18 }}>
-            <img src="/assets/baudry.jpg" alt="Baudry Bahuna, fondateur et formateur MAJUBAH Consulting" loading="lazy" />
+            <img src={assetPath('baudry.jpg')} alt="Baudry Bahuna, fondateur et formateur MAJUBAH Consulting" loading="lazy" />
             <span className="trainer-photo-scan" /><span className="trainer-photo-index">MAJUBAH / 01</span>
           </motion.div>
           <motion.div className="trainer-quote" initial={{ opacity: 0, x: 35, rotate: 2 }} whileInView={{ opacity: 1, x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ delay: .55, duration: .7 }}>“Comprendre l’IA, c’est surtout apprendre à mieux décider.”<small>— BAUDRY BAHUNA</small></motion.div>
@@ -973,7 +975,7 @@ function CampusJourney() {
     <section id="campus-physique" ref={sectionRef} className="campus-expand" aria-label="Découverte immersive du campus MAJUBAH">
       <div className="campus-expand-sticky">
         <motion.div className="campus-expand-bg" style={reduce ? {} : { scale: exteriorScale }}>
-          <img src="/assets/campusfinal.png" alt="Entrée ouverte du campus MAJUBAH à Pont-Audemer" loading="lazy" />
+          <img src={assetPath('campusfinal.png')} alt="Entrée ouverte du campus MAJUBAH à Pont-Audemer" loading="lazy" />
           <div />
         </motion.div>
 
@@ -988,7 +990,7 @@ function CampusJourney() {
           className="campus-media-frame"
           style={reduce ? { width: '100vw', height: '100vh', borderRadius: 0 } : { width: mediaWidth, height: mediaHeight, borderRadius: mediaRadius }}
         >
-          <img src="/assets/campus-interior.jpg" alt="Salle de formation du campus MAJUBAH" loading="lazy" />
+          <img src={assetPath('campus-interior.jpg')} alt="Salle de formation du campus MAJUBAH" loading="lazy" />
           <div className="campus-media-shade" />
           <div className="campus-frame-label"><span>MAJUBAH</span><i /> <small>FORMATION ROOM</small></div>
         </motion.div>
@@ -1084,7 +1086,7 @@ function AICompass() {
             </div>
 
             <button className="orbit-center" onClick={() => setAutoRotate((value) => !value)} aria-label={autoRotate ? 'Mettre la boussole en pause' : 'Relancer la rotation de la boussole'}>
-              <span><img src="/assets/sigle-orange.png" alt="" /></span>
+              <span><img src={assetPath('sigle-orange.png')} alt="" /></span>
               <small>VOTRE CAP</small><b>{journey.label}</b>
               <i className={autoRotate ? 'running' : ''} />
             </button>
@@ -1190,31 +1192,31 @@ function Testimonials() {
       quote: 'Je recommande vivement Baudry BAHUNA pour son approche ludique et ses supports variés, rendant les cours concrets et captivants. Son accompagnement efficace nous aide à mieux comprendre et mémoriser, facilitant ainsi notre réussite aux examens. Un enseignant investi et motivant !',
       name: 'Andréa Q.',
       role: 'Chargé de relation clientèle',
-      image: '/assets/testimonials/andrea.jpg',
+      image: assetPath('testimonials/andrea.jpg'),
     },
     {
       quote: 'Baudry est un formateur passionné, qui a à cœur de partager son expérience et ses connaissances, toujours avec enthousiasme ! Ses cours sont rythmés par des cas pratiques qui rendent l’apprentissage beaucoup plus concret et intéressant. C’est toujours un plaisir d’assister à ses cours, merci à lui 🙏🏻',
       name: 'Chloé P.',
       role: 'Agent immobilier',
-      image: '/assets/testimonials/chloe.jpg',
+      image: assetPath('testimonials/chloe.jpg'),
     },
     {
       quote: 'Baudry est animé par la volonté d’apporter une véritable valeur ajoutée dans le cadre de l’animation de formations. Il déploie des solutions innovantes rendant ses interventions attractives tout en permettant aux étudiants de rester au cœur du processus d’apprentissage.',
       name: 'Valentin C.',
       role: 'Responsable pédagogique',
-      image: '/assets/testimonials/valentin.jpg',
+      image: assetPath('testimonials/valentin.jpg'),
     },
     {
       quote: 'J’ai eu la chance d’être formé par Baudry Bahuna en gestion de projet durant ma première année de Master MDO Groupe A à l’E2SE. Formateur passionné et pédagogue, il sait rendre ses cours extrêmement vivants et captivants. Baudry intègre également les nouveaux outils, dont l’IA, ce qui nous permet de rester performants et en phase avec les exigences actuelles du métier. Professionnel, clair et engagé dans la réussite de ses étudiants, Baudry est un intervenant que je recommande vivement. Encore un grand merci au nom du groupe A MDO 2025/2026, en espérant vous avoir à nouveau sur d’autres modules durant ce Master. 😉',
       name: 'Hugo L.',
       role: 'Étudiant en Master Manager des Opérations',
-      image: '/assets/testimonials/hugo.jpg',
+      image: assetPath('testimonials/hugo.jpg'),
     },
     {
       quote: 'J’ai commencé à travailler avec Baudry récemment, et je comprends mieux cette phrase de Sénèque : « Ce n’est pas parce que les choses sont difficiles que nous n’osons pas, c’est parce que nous n’osons pas qu’elles sont difficiles. » Baudry a ce talent rare d’identifier les blocages tout en donnant l’assurance nécessaire pour les dépasser. Professionnel, analytique, mais surtout profondément humain. Pas de discours rigide, juste des échanges clairs et naturels qui font réellement avancer.',
       name: 'Jocelyn L.',
       role: 'Expert en financements et marchand de biens',
-      image: '/assets/testimonials/jocelyn.jpg',
+      image: assetPath('testimonials/jocelyn.jpg'),
     },
   ], [])
   const reduceMotion = useReducedMotion()
@@ -1451,7 +1453,7 @@ function Booking() {
             <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="majubah-robot-scene" />
             <div className="robot-stage-status"><i /><span>GUIDE MAJUBAH</span><small>EN LIGNE</small></div>
             <div className="robot-stage-hint"><MousePointer2 /><span>Interagissez<br />avec le robot</span></div>
-            <div className="spline-brand-cover" aria-hidden="true"><img src="/assets/majubah-horizontal.png" alt="" /></div>
+            <div className="spline-brand-cover" aria-hidden="true"><img src={assetPath('majubah-horizontal.png')} alt="" /></div>
           </motion.div>
           <div className={`booking-card-shell ${formOpen ? 'booking-card-shell--form' : ''} ${justSelected ? 'booking-card--targeted' : ''}`}>
             <motion.div className="booking-card-flipper" animate={{ rotateY: formOpen ? 180 : 0 }} transition={{ type: 'spring', stiffness: 90, damping: 19 }}>
