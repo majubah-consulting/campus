@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent, type MouseEvent, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent, type MouseEvent, type ReactNode } from 'react'
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import {
   ArrowDown,
@@ -963,6 +963,47 @@ function Trainer() {
   )
 }
 
+function Podcast() {
+  const reduce = useReducedMotion()
+  return (
+    <section className="section podcast-section" id="podcast">
+      <div className="podcast-orbit podcast-orbit--one" /><div className="podcast-orbit podcast-orbit--two" />
+      <div className="container podcast-container">
+        <div className="podcast-heading">
+          <Reveal className="podcast-title-block">
+            <span className="eyebrow eyebrow--light">LE MÉDIA MAJUBAH</span>
+            <h2>MAJUBAH Podcast</h2>
+            <p>Des conversations pour repenser l’apprentissage à l’ère de l’intelligence artificielle.</p>
+          </Reveal>
+          <Reveal className="podcast-intro" delay={.1}>
+            <p>Éducation, pédagogie, IA, formation de formateurs et compétences de demain : MAJUBAH Podcast donne la parole à celles et ceux qui transmettent, apprennent et innovent.</p>
+            <div className="podcast-actions">
+              <a className="podcast-button podcast-button--primary" href="mailto:baudry@majubahconsulting.com?subject=MAJUBAH%20Podcast%20%E2%80%94%20Recevoir%20les%20%C3%A9pisodes&body=Bonjour%20Baudry%2C%0A%0AJe%20souhaite%20recevoir%20les%20prochains%20%C3%A9pisodes%20de%20MAJUBAH%20Podcast.%0A%0ABien%20cordialement."><CirclePlay /> Découvrir les épisodes <ArrowRight /></a>
+              <a className="podcast-button podcast-button--secondary" href="mailto:baudry@majubahconsulting.com?subject=Proposition%20d%27invit%C3%A9%20%E2%80%94%20MAJUBAH%20Podcast&body=Bonjour%20Baudry%2C%0A%0AJe%20souhaite%20vous%20proposer%20un%20invit%C3%A9%20pour%20MAJUBAH%20Podcast.%0A%0ANom%20de%20l%27invit%C3%A9%20%3A%0ATh%C3%A9matique%20%3A%0ALien%20ou%20coordonn%C3%A9es%20%3A%0A%0ABien%20cordialement."><Mic /> Proposer un invité</a>
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal className="podcast-visual">
+          <motion.figure
+            initial={reduce ? false : { opacity: 0, y: 45, scale: .975 }}
+            whileInView={reduce ? {} : { opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: .25 }}
+            transition={{ duration: .9, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <motion.img src={assetPath('podcast-studio.png')} alt="Baudry Bahuna et Pierre-Louis en conversation dans le studio MAJUBAH Podcast" loading="lazy" whileHover={reduce ? {} : { scale: 1.018 }} transition={{ duration: .65, ease: [0.22,1,0.36,1] }} />
+            <span className="podcast-image-shade" />
+            <div className="podcast-status"><i /><span><small>NOUVEAU MÉDIA</small><b>Conversations en préparation</b></span></div>
+            <div className="podcast-caption"><span>ÉDUCATION · PÉDAGOGIE · IA</span><strong>La transmission<br />en conversation.</strong></div>
+            <div className="podcast-wave" aria-hidden="true">{[.55,.9,.4,.72,1,.62,.83,.45,.7,.96,.5,.76].map((height, index) => <i key={index} style={{ '--wave-height': height } as CSSProperties} />)}</div>
+          </motion.figure>
+          <div className="podcast-brand-card"><img src={assetPath('podcast-logo.png')} alt="MAJUBAH Podcast" /><span>UNE PRODUCTION<br /><b>MAJUBAH CONSULTING</b></span></div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
 function CampusJourney() {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [isCompact, setIsCompact] = useState(false)
@@ -1603,6 +1644,7 @@ export default function App() {
         <DigitalCampus />
         <Workshops />
         <Trainer />
+        <Podcast />
         <CampusJourney />
         <Modes />
         <AICompass />
