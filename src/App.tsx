@@ -50,6 +50,28 @@ const assetPath = (name: string) => `${import.meta.env.BASE_URL}assets/${name}`
 
 const words = ['autonome', 'productif', 'efficace', 'stratégique', 'performant', 'créatif']
 
+const zodiacSigns = [
+  { name: 'Bélier', symbol: '♈' }, { name: 'Taureau', symbol: '♉' }, { name: 'Gémeaux', symbol: '♊' },
+  { name: 'Cancer', symbol: '♋' }, { name: 'Lion', symbol: '♌' }, { name: 'Vierge', symbol: '♍' },
+  { name: 'Balance', symbol: '♎' }, { name: 'Scorpion', symbol: '♏' }, { name: 'Sagittaire', symbol: '♐' },
+  { name: 'Capricorne', symbol: '♑' }, { name: 'Verseau', symbol: '♒' }, { name: 'Poissons', symbol: '♓' },
+]
+
+const dailyHoroscopes = [
+  { title: 'Clarifiez avant d’accélérer.', text: 'Une décision simple et assumée débloquera davantage de choses que dix nouvelles idées. Votre cap du jour : choisir.' },
+  { title: 'Votre intuition mérite un prototype.', text: 'Ne cherchez pas encore la version parfaite. Donnez une première forme concrète à l’idée qui revient depuis plusieurs jours.' },
+  { title: 'La bonne conversation arrive.', text: 'Une question posée avec précision peut transformer votre journée. Écoutez d’abord, puis formulez ce qui compte vraiment.' },
+  { title: 'Faites de la place au progrès.', text: 'Un ancien réflexe peut être simplifié aujourd’hui. Automatisez une petite tâche et réservez votre énergie à l’essentiel.' },
+  { title: 'Votre constance devient visible.', text: 'Ce que vous construisez discrètement commence à porter ses fruits. Continuez, sans brusquer le rythme.' },
+  { title: 'Reliez les bons points.', text: 'Deux informations jusque-là séparées vont former une piste utile. Notez les connexions inattendues.' },
+  { title: 'Le moment est propice pour transmettre.', text: 'Partagez une méthode, un retour d’expérience ou une ressource. Votre clarté aidera aussi votre propre réflexion.' },
+  { title: 'Un détail fera la différence.', text: 'Relisez, simplifiez, ajustez. La valeur de votre travail se trouve aujourd’hui dans la qualité de la finition.' },
+  { title: 'Osez une voie plus directe.', text: 'Le chemin le plus évident n’est pas toujours le plus juste. Testez une approche plus simple et mesurez le résultat.' },
+  { title: 'Votre énergie appelle un cadre.', text: 'Transformez votre ambition en trois étapes visibles. Un plan léger vous donnera plus de liberté, pas moins.' },
+  { title: 'Laissez émerger l’idée neuve.', text: 'Une contrainte peut devenir votre meilleur levier créatif. Changez d’angle plutôt que de forcer la solution.' },
+  { title: 'Terminez ce qui est presque prêt.', text: 'La satisfaction du jour viendra d’une boucle refermée. Finalisez une tâche avant d’en ouvrir une nouvelle.' },
+]
+
 const tools = [
   { name: 'ChatGPT', mark: 'GPT', position: 'one', color: '#22a06b' },
   { name: 'Claude', mark: 'C', position: 'two', color: '#d97757' },
@@ -1519,6 +1541,59 @@ function Footer() {
   return <footer className="footer"><div className="container footer-top"><Logo light /><p>Le campus où les professionnels apprennent à travailler avec l’intelligence artificielle.</p><div><a href="#programme">Formation</a><a href="#campus-digital">Campus</a><a href="#ateliers">Ateliers</a></div><div><a href="mailto:baudry@majubahconsulting.com?subject=Prise%20de%20contact%20depuis%20le%20site%20MAJUBAH&body=Bonjour%20Baudry%2C%0A%0AJe%20vous%20contacte%20depuis%20le%20site%20MAJUBAH%20au%20sujet%20de%20vos%20formations%20et%20ateliers.%0A%0AMerci%20de%20me%20recontacter.%0A%0ABien%20cordialement.">Contact</a><a href="#top">Mentions légales</a><a href="#top">Confidentialité</a></div></div><div className="container footer-bottom"><span>© 2026 MAJUBAH Consulting</span><span>Pont-Audemer · Normandie</span><a href="#top">Retour en haut ↑</a></div></footer>
 }
 
+function DailyRitual() {
+  const today = useMemo(() => new Date(), [])
+  const dayNumber = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86400000)
+  const [selectedSign, setSelectedSign] = useState(dayNumber % zodiacSigns.length)
+  const [saint, setSaint] = useState({ name: 'Le saint du jour', description: 'Une nouvelle figure inspirante se révèle chaque jour.' })
+  const [saintReady, setSaintReady] = useState(false)
+  const horoscope = dailyHoroscopes[(dayNumber + selectedSign * 7) % dailyHoroscopes.length]
+  const dateLabel = new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).format(today)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    const params = new URLSearchParams({ jour: String(today.getDate()), mois: String(today.getMonth() + 1), annee: String(today.getFullYear()) })
+    fetch(`https://nominis.cef.fr/json/saintdujour.php?${params}`, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error('Saint du jour indisponible')
+        return response.json()
+      })
+      .then((payload) => {
+        const result = payload?.response?.saintdujour
+        if (result?.nom) setSaint({ name: result.nom, description: result.description || 'Une personnalité à découvrir aujourd’hui.' })
+        setSaintReady(true)
+      })
+      .catch((error) => { if (error.name !== 'AbortError') setSaintReady(true) })
+    return () => controller.abort()
+  }, [today])
+
+  return (
+    <section className="daily-ritual" aria-labelledby="daily-ritual-title">
+      <div className="daily-orbit daily-orbit--one" /><div className="daily-orbit daily-orbit--two" />
+      <div className="container">
+        <div className="daily-heading"><span className="eyebrow eyebrow--light">VOTRE RENDEZ-VOUS QUOTIDIEN</span><h2 id="daily-ritual-title">Aujourd’hui vous réserve<br /><em>une nouvelle impulsion.</em></h2><p>{dateLabel}</p></div>
+        <div className="daily-grid">
+          <motion.article className="daily-card daily-card--horoscope" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .25 }} transition={{ duration: .65 }}>
+            <div className="daily-card-top"><span><Sparkles /></span><div><small>HOROSCOPE PROFESSIONNEL</small><strong>Votre énergie du jour</strong></div><b>{zodiacSigns[selectedSign].symbol}</b></div>
+            <label className="zodiac-select"><span>Votre signe</span><select value={selectedSign} onChange={(event) => setSelectedSign(Number(event.target.value))}>{zodiacSigns.map((sign, index) => <option key={sign.name} value={index}>{sign.symbol} {sign.name}</option>)}</select></label>
+            <AnimatePresence mode="wait">
+              <motion.div className="daily-message" key={selectedSign} initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -14 }} transition={{ duration: .3 }}><span>CAP DU JOUR</span><h3>{horoscope.title}</h3><p>{horoscope.text}</p></motion.div>
+            </AnimatePresence>
+            <div className="daily-energy"><span><i style={{ width: `${68 + ((dayNumber + selectedSign) % 29)}%` }} /></span><small>ÉNERGIE EN MOUVEMENT</small></div>
+          </motion.article>
+
+          <motion.article className="daily-card daily-card--saint" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .25 }} transition={{ duration: .65, delay: .12 }}>
+            <div className="saint-halo"><i /><i /><i /><span><CalendarDays /></span></div>
+            <div className="daily-card-top"><span><Award /></span><div><small>ÉPHÉMÉRIDE</small><strong>Le saint du jour</strong></div><b>{String(today.getDate()).padStart(2, '0')}</b></div>
+            <div className={`saint-content ${saintReady ? 'is-ready' : ''}`}><span>À L’HONNEUR AUJOURD’HUI</span><h3>{saint.name}</h3><p>{saint.description}</p></div>
+            <a className="saint-source" href="https://nominis.cef.fr" target="_blank" rel="noreferrer"><span>Données éditoriales Nominis</span><ArrowRight /></a>
+          </motion.article>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function App() {
   return (
     <>
@@ -1541,6 +1616,7 @@ export default function App() {
         <FAQ />
         <Booking />
         <CompassSignup source="footer-boussole" compact />
+        <DailyRitual />
       </main>
       <Footer />
     </>
