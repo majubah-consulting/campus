@@ -631,7 +631,6 @@ function Method() {
 
 function Immersion() {
   const sectionRef = useRef<HTMLElement | null>(null)
-  const videoRef = useRef<HTMLVideoElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({
@@ -680,17 +679,14 @@ function Immersion() {
                   </motion.button>
                 ) : (
                   <motion.div key="video" className="heygen-player" initial={{ opacity: 0, scale: .985 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: .5 }}>
-                    <video
-                      ref={videoRef}
-                      src="https://resource2.heygen.ai/video/transcode/c5f83ad7c97a473798d347434347f218/v3598782ec18e460d950181004cf21d62/1280x720_nocap.mp4"
-                      poster="https://dynamic.heygen.ai/aws_pacific/avatar_tmp/bfdd401ce108490f93754938d2303582/v3598782ec18e460d950181004cf21d62/c5f83ad7c97a473798d347434347f218.jpeg"
-                      aria-label="Vidéo de présentation MAJUBAH"
-                      controls
-                      autoPlay
-                      playsInline
-                      preload="metadata"
+                    <iframe
+                      src="https://app.heygen.com/embeds/c5f83ad7c97a473798d347434347f218?autoplay=1"
+                      title="Vidéo de présentation MAJUBAH"
+                      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                      allowFullScreen
                     />
                     <button className="video-close" onClick={() => setIsPlaying(false)} aria-label="Revenir à l’image de présentation"><X /></button>
+                    <a className="video-fallback" href="https://app.heygen.com/embeds/c5f83ad7c97a473798d347434347f218" target="_blank" rel="noreferrer">Ouvrir la vidéo</a>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1538,7 +1534,7 @@ function Booking() {
 }
 
 function Footer() {
-  return <footer className="footer"><div className="container footer-top"><Logo light /><p>Le campus où les professionnels apprennent à travailler avec l’intelligence artificielle.</p><div><a href="#programme">Formation</a><a href="#campus-digital">Campus</a><a href="#ateliers">Ateliers</a></div><div><a href="mailto:baudry@majubahconsulting.com?subject=Prise%20de%20contact%20depuis%20le%20site%20MAJUBAH&body=Bonjour%20Baudry%2C%0A%0AJe%20vous%20contacte%20depuis%20le%20site%20MAJUBAH%20au%20sujet%20de%20vos%20formations%20et%20ateliers.%0A%0AMerci%20de%20me%20recontacter.%0A%0ABien%20cordialement.">Contact</a><a href="#top">Mentions légales</a><a href="#top">Confidentialité</a></div></div><div className="container footer-bottom"><span>© 2026 MAJUBAH Consulting</span><span>Pont-Audemer · Normandie</span><a href="#top">Retour en haut ↑</a></div></footer>
+  return <footer className="footer"><div className="container footer-top"><Logo light /><p>Le campus où les professionnels apprennent à travailler avec l’intelligence artificielle.</p><div><a href="#programme">Formation</a><a href="#campus-digital">Campus</a><a href="#ateliers">Ateliers</a></div><div><a href="mailto:baudry@majubahconsulting.com?subject=Prise%20de%20contact%20depuis%20le%20site%20MAJUBAH&body=Bonjour%20Baudry%2C%0A%0AJe%20vous%20contacte%20depuis%20le%20site%20MAJUBAH%20au%20sujet%20de%20vos%20formations%20et%20ateliers.%0A%0AMerci%20de%20me%20recontacter.%0A%0ABien%20cordialement.">Contact</a><a href={`${import.meta.env.BASE_URL}mentions-legales.html`}>Mentions légales</a></div></div><div className="container footer-bottom"><span>© 2026 MAJUBAH Consulting</span><span>Site créé par Baudry Bahuna — Fondateur de MAJUBAH Consulting</span><a href="#top">Retour en haut ↑</a></div></footer>
 }
 
 function DailyRitual() {

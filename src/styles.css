@@ -327,9 +327,10 @@ img { display: block; max-width: 100%; }
 .presentation-label small { color: #ff8d73; font: 800 9px/1 'Inter'; letter-spacing: .15em; }
 .presentation-label b { font: 700 17px/1.1 'Inter'; }
 .heygen-player { position: absolute; inset: 0; background: #000; }
-.heygen-player video { width: 100%; height: 100%; display: block; object-fit: contain; background: #000; }
+.heygen-player iframe { width: 100%; height: 100%; display: block; border: 0; background: #000; }
 .video-close { position: absolute; z-index: 9; top: 14px; right: 14px; width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.28); border-radius: 50%; background: rgba(5,17,22,.6); color: #fff; backdrop-filter: blur(10px); cursor: pointer; }
 .video-close svg { width: 17px; }
+.video-fallback { position: absolute; z-index: 9; right: 62px; top: 17px; min-height: 32px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid rgba(255,255,255,.22); border-radius: 99px; background: rgba(5,17,22,.62); color: #fff; font: 750 9px/1 'Inter'; backdrop-filter: blur(10px); }
 .ipad-reflection { position: absolute; z-index: 7; inset: 0; pointer-events: none; background: linear-gradient(120deg,rgba(255,255,255,.08),transparent 24%,transparent 70%,rgba(255,255,255,.04)); mix-blend-mode: screen; }
 .ipad-floor-shadow { width: 82%; height: 55px; margin: 15px auto 0; border-radius: 50%; background: rgba(0,0,0,.34); filter: blur(20px); transform: rotateX(70deg); }
 .immersion-trust { position: relative; z-index: 2; margin-top: 35px; padding: 24px 28px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 30px; border: 1px solid rgba(255,255,255,.13); border-radius: 18px; background: rgba(255,255,255,.055); backdrop-filter: blur(16px); }
@@ -1431,6 +1432,13 @@ img { display: block; max-width: 100%; }
   .compass-signup-meta { flex-direction: column; gap: 7px; }
   .compass-signup-meta > span { text-align: left; }
   .orchestra-stage { height: 500px; aspect-ratio: auto; min-height: 0; border-radius: 20px; }
+  /* Safari iOS peut rendre simultanément les deux faces d'un élément 3D.
+     Sur mobile, on conserve le changement de contenu sans rotation spatiale. */
+  .orchestra-stage { transform: none !important; transform-style: flat; }
+  .orchestra-flipper,.workshop-card-flipper,.monthly-card-flipper,.booking-card-flipper { transform: none !important; transform-style: flat; will-change: auto; }
+  .orchestra-face,.workshop-featured-face,.workshop-monthly-face,.booking-card-face { transform: none !important; -webkit-transform: none !important; backface-visibility: visible; -webkit-backface-visibility: visible; }
+  .orchestra-face[aria-hidden="true"],.workshop-featured-face[aria-hidden="true"],.workshop-monthly-face[aria-hidden="true"],.booking-card-face[aria-hidden="true"] { display: none !important; }
+  .orchestra-face[aria-hidden="false"],.workshop-featured-face[aria-hidden="false"],.workshop-monthly-face[aria-hidden="false"] { display: block; opacity: 1; }
   .orchestra-photo { inset: 0; width: 100%; height: 100%; object-position: 50% center; }
   .orchestra-system-bar { top: 14px; left: 14px; right: 14px; padding: 0 11px; gap: 10px; }
   .orchestra-system-bar b { margin-left: auto; font-size: 8px; }
@@ -1481,6 +1489,7 @@ img { display: block; max-width: 100%; }
   .immersion-heading h2 { font-size: 42px; }
   .immersion-heading p { font-size: 16px; }
   .ipad-scene { width: 100%; }
+  .ipad-scene { transform: none !important; transform-style: flat; }
   .ipad-device { padding: 8px; border-radius: 22px; }
   .ipad-device::after { inset: 3px; border-radius: 18px; }
   .ipad-camera { top: 2px; }
@@ -1489,6 +1498,10 @@ img { display: block; max-width: 100%; }
   .presentation-play svg { width: 22px; }
   .presentation-label { left: 18px; bottom: 15px; }
   .presentation-label b { font-size: 13px; }
+  .heygen-player { z-index: 3; }
+  .heygen-player iframe { position: absolute; inset: 0; }
+  .video-close { top: 8px; right: 8px; width: 34px; height: 34px; }
+  .video-fallback { top: auto; right: 10px; bottom: 10px; min-height: 29px; font-size: 8px; }
   .immersion-trust { margin-top: 15px; padding: 22px 16px; gap: 18px; }
   .immersion-trust > div { flex-direction: column; align-items: stretch; width: 100%; }
   .immersion-trust span { justify-content: center; }
@@ -1582,7 +1595,9 @@ img { display: block; max-width: 100%; }
   .robot-stage-hint { left: 14px; bottom: 15px; }
   .spline-brand-cover { right: 8px; bottom: 8px; width: 132px; height: 42px; padding: 7px 11px; }
   .booking-card { padding: 22px 18px; }
-  .booking-card-shell--form,.booking-card-shell--form .booking-card-flipper,.booking-card-shell--form .booking-card-face { min-height: 800px; }
+  .booking-card-shell,.booking-card-flipper { min-height: 0; }
+  .booking-card-face[aria-hidden="false"] { position: relative; inset: auto; display: flex; min-height: 0; opacity: 1; }
+  .booking-card-shell--form,.booking-card-shell--form .booking-card-flipper,.booking-card-shell--form .booking-card-face[aria-hidden="false"] { min-height: 0; }
   .prebooking-fields { grid-template-columns: 1fr; gap: 10px; }
   .prebooking-field--wide { grid-column: auto; }
   .booking-agenda { margin-top: 18px; }
