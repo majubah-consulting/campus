@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0d3442" />
+    <title>Conditions générales de vente — MAJUBAH Consulting</title>
+    <link rel="icon" type="image/png" href="./favicon-32.png" />
+    <style>
+      :root { --blue:#194759; --deep:#0b2d39; --orange:#eb5436; --ink:#112c38; --muted:#687e87; --line:#dfe7e9; --paper:#f5f7f7; }
+      * { box-sizing:border-box; }
+      html { scroll-behavior:smooth; }
+      body { margin:0; background:var(--paper); color:var(--ink); font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+      a { color:inherit; }
+      .topbar { position:sticky; z-index:10; top:0; border-bottom:1px solid rgba(25,71,89,.1); background:rgba(255,255,255,.94); backdrop-filter:blur(16px); }
+      .topbar-inner { width:min(1120px,calc(100% - 40px)); min-height:88px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+      .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+      .brand img { width:54px; height:54px; object-fit:contain; }
+      .brand span { display:flex; flex-direction:column; font-weight:850; letter-spacing:.13em; }
+      .brand small { color:var(--orange); font-size:10px; letter-spacing:.17em; }
+      .back { min-height:44px; padding:0 18px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:12px; color:var(--blue); font-weight:750; font-size:13px; text-decoration:none; }
+      main { width:min(1120px,calc(100% - 40px)); margin:64px auto 100px; }
+      .hero { padding:58px; overflow:hidden; position:relative; border-radius:30px; background:radial-gradient(circle at 88% 5%,#28667a,#123e4d 38%,#092833 78%); color:white; }
+      .hero::after { content:""; position:absolute; width:420px; height:420px; right:-170px; top:-190px; border:1px solid rgba(255,255,255,.12); border-radius:50%; box-shadow:0 0 0 62px rgba(255,255,255,.025),0 0 0 124px rgba(255,255,255,.025); }
+      .eyebrow { color:#ff8b72; font-size:11px; font-weight:850; letter-spacing:.16em; }
+      h1 { max-width:820px; margin:20px 0 18px; font-size:clamp(40px,6.5vw,72px); line-height:.98; letter-spacing:-.06em; }
+      .hero p { max-width:650px; margin:0; color:rgba(255,255,255,.68); line-height:1.7; }
+      .updated { margin-top:28px; display:inline-flex; padding:9px 12px; border:1px solid rgba(255,255,255,.13); border-radius:99px; color:rgba(255,255,255,.7); font-size:11px; }
+      .cgv-grid { margin-top:26px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+      article { padding:32px; border:1px solid var(--line); border-radius:22px; background:white; box-shadow:0 18px 45px rgba(25,71,89,.055); }
+      article.wide { grid-column:1/-1; }
+      article > span { color:var(--orange); font-size:9px; font-weight:850; letter-spacing:.15em; }
+      h2 { margin:10px 0 18px; font-size:25px; letter-spacing:-.035em; }
+      p,li { color:var(--muted); font-size:14px; line-height:1.72; }
+      p { margin:0 0 12px; }
+      p:last-child { margin-bottom:0; }
+      strong { color:var(--ink); }
+      ul { margin:12px 0 0; padding-left:20px; }
+      li + li { margin-top:8px; }
+      .cancellation { margin-top:16px; padding:0; list-style:none; }
+      .cancellation li { padding:13px 15px; display:grid; grid-template-columns:145px 1fr; gap:14px; border:1px solid var(--line); background:#f8faf9; }
+      .cancellation li:first-child { border-radius:13px 13px 0 0; }
+      .cancellation li:last-child { border-radius:0 0 13px 13px; }
+      .cancellation li + li { margin-top:-1px; }
+      .cancellation b { color:var(--orange); }
+      .notice { margin-top:18px; padding:14px 16px; border-radius:13px; background:rgba(235,84,54,.065); color:#6a4d46; font-size:12px; line-height:1.55; }
+      .legal-links { margin-top:24px; display:flex; flex-wrap:wrap; gap:10px; }
+      .legal-links a { min-height:40px; padding:0 14px; display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:10px; color:var(--blue); font-size:12px; font-weight:750; text-decoration:none; }
+      footer { padding:34px 20px; background:#081d26; color:rgba(255,255,255,.55); text-align:center; font-size:11px; line-height:1.7; }
+      footer strong { color:white; }
+      @media (max-width:720px) {
+        .topbar-inner,main { width:calc(100% - 28px); }
+        .topbar-inner { min-height:74px; }
+        .brand span { display:none; }
+        .brand img { width:46px; height:46px; }
+        main { margin-top:28px; }
+        .hero { padding:34px 24px; border-radius:22px; }
+        .hero p { font-size:14px; }
+        .cgv-grid { grid-template-columns:1fr; }
+        article,article.wide { grid-column:auto; padding:24px 20px; border-radius:18px; }
+        .cancellation li { grid-template-columns:1fr; gap:3px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="./" aria-label="Retour au site MAJUBAH Consulting"><img src="./assets/sigle-orange.png" alt="" /><span>MAJUBAH <small>CONSULTING</small></span></a>
+        <a class="back" href="./">← Retour au site</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">CADRE CONTRACTUEL</span>
+        <h1>Conditions générales de vente</h1>
+        <p>Les présentes conditions encadrent les prestations de formation professionnelle continue proposées par MAJUBAH Consulting.</p>
+        <span class="updated">En vigueur au 1er janvier 2025</span>
+      </section>
+
+      <section class="cgv-grid">
+        <article>
+          <span>ARTICLE 1</span>
+          <h2>Objet</h2>
+          <p>Les présentes Conditions Générales de Vente régissent les relations contractuelles entre <strong>MAJUBAH Consulting</strong>, SARL, SIRET 951 760 834 00014, et ses clients dans le cadre de la réalisation de prestations de formation professionnelle continue.</p>
+        </article>
+
+        <article>
+          <span>ARTICLE 2</span>
+          <h2>Conditions d’accès et prérequis</h2>
+          <p>Chaque formation dispose de conditions d’accès et de prérequis précisés dans le programme détaillé. Il appartient au bénéficiaire ou à son employeur de vérifier que ces conditions sont remplies avant toute inscription.</p>
+        </article>
+
+        <article class="wide">
+          <span>ARTICLE 3</span>
+          <h2>Modalités d’inscription et rétractation</h2>
+          <p>L’inscription devient effective après validation des prérequis et signature d’une convention de formation avec le client professionnel ou l’employeur, ou d’un contrat de formation lorsque la formation est financée à titre individuel par une personne physique.</p>
+          <p>Pour ce dernier contrat, le stagiaire dispose du délai de rétractation prévu à l’article L. 6353-5 du Code du travail, soit <strong>dix jours à compter de sa signature</strong>. Lorsqu’un contrat est conclu à distance ou hors établissement avec un consommateur et que le Code de la consommation s’applique, le délai légal de rétractation est de <strong>quatorze jours</strong>, sous réserve des exceptions légales.</p>
+          <div class="notice">Une demande de place effectuée depuis le site constitue une préinscription et non une inscription définitive. La place est confirmée après échange avec MAJUBAH Consulting et formalisation des documents contractuels.</div>
+        </article>
+
+        <article>
+          <span>ARTICLE 4</span>
+          <h2>Tarifs et paiement</h2>
+          <p>Les tarifs applicables sont ceux indiqués sur le site, le devis, la convention ou le contrat de formation. Ils sont présentés toutes taxes comprises lorsque la TVA est applicable.</p>
+          <p>Les prestations de formation professionnelle continue peuvent bénéficier de l’exonération prévue à l’article 261, 4, 4° a du Code général des impôts, sous réserve des conditions légales et de la situation fiscale applicable. La mention correspondante figure sur les devis et factures.</p>
+          <p>Le règlement peut être effectué par virement bancaire, par un OPCO ou via le Compte personnel de formation. Aucun paiement en espèces n’est accepté au-delà des seuils légaux.</p>
+        </article>
+
+        <article>
+          <span>ARTICLE 5</span>
+          <h2>Financement CPF et OPCO</h2>
+          <p>Pour les actions éligibles au CPF, notamment lorsqu’elles préparent à une certification enregistrée sous les références RS7344 ou RS6977 selon le programme concerné, la mobilisation du financement demeure soumise à l’éligibilité de l’action, à la disponibilité des droits et aux règles de la plateforme Mon Compte Formation.</p>
+          <p>Le client est responsable de la mobilisation de ses droits. Pour un financement OPCO, la demande de prise en charge doit être déposée et acceptée avant le début de la formation. À défaut, le coût reste dû par le client selon les documents contractuels signés.</p>
+        </article>
+
+        <article class="wide">
+          <span>ARTICLE 6</span>
+          <h2>Annulation et report</h2>
+          <p>Toute annulation doit être notifiée par écrit à MAJUBAH Consulting. Sauf dispositions différentes prévues dans la convention ou le contrat signé, les indemnités suivantes s’appliquent :</p>
+          <ul class="cancellation">
+            <li><b>Plus de 15 jours ouvrés</b><span>Aucune indemnité d’annulation.</span></li>
+            <li><b>Entre 8 et 15 jours ouvrés</b><span>50 % du tarif de la prestation.</span></li>
+            <li><b>Moins de 8 jours ouvrés</b><span>100 % du tarif de la prestation.</span></li>
+          </ul>
+          <p>MAJUBAH Consulting se réserve le droit de reporter ou d’annuler une session si le nombre minimum de participants n’est pas atteint ou en cas de force majeure. Le client en est informé dans les meilleurs délais. Cette annulation n’entraîne aucune pénalité pour le client ; les sommes déjà versées au titre de la session concernée sont remboursées ou reportées, selon son choix.</p>
+        </article>
+
+        <article>
+          <span>ARTICLE 7</span>
+          <h2>Confidentialité</h2>
+          <p>Les parties s’engagent à maintenir confidentielles les informations échangées dans le cadre de la relation contractuelle, sauf accord contraire, nécessité liée à l’exécution de la prestation ou obligation légale.</p>
+        </article>
+
+        <article>
+          <span>ARTICLE 8</span>
+          <h2>Droit applicable et litiges</h2>
+          <p>Les présentes CGV sont soumises au droit français. En cas de différend, les parties recherchent en priorité une solution amiable. À défaut, les juridictions compétentes sont déterminées conformément aux règles légales applicables ; entre professionnels, compétence est attribuée aux tribunaux du ressort du siège social de MAJUBAH Consulting, sous réserve des dispositions impératives.</p>
+        </article>
+
+        <article class="wide">
+          <span>CONCEPTION & RÉALISATION</span>
+          <h2>MAJUBAH Consulting</h2>
+          <p>Ce site a été conçu et développé par Baudry Bahuna, fondateur de MAJUBAH Consulting.</p>
+          <div class="legal-links"><a href="./mentions-legales.html">Consulter les mentions légales</a><a href="mailto:contact@majubah.com">Contacter MAJUBAH Consulting</a></div>
+        </article>
+      </section>
+    </main>
+
+    <footer><strong>MAJUBAH Consulting</strong><br />Site créé par Baudry Bahuna — Fondateur de MAJUBAH Consulting</footer>
+  </body>
+</html>
