@@ -353,7 +353,7 @@ function Hero() {
         <motion.div className="hero-portal-light" aria-hidden="true" animate={reduce ? {} : { opacity: [.42, .68, .42], scale: [1, 1.04, 1] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} />
         <motion.div className="session-card glass-card" initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8, delay: .55 }}>
           <CalendarDays />
-          <div><span>Prochaine session</span><strong>13 juillet 2026</strong><small><i /> 6 places restantes</small></div>
+          <div><span>Prochaine session</span><strong>20 juillet 2026</strong><small><i /> 6 places restantes</small></div>
         </motion.div>
         <motion.div className="floating-card floating-card--one glass-card" animate={reduce ? {} : { y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity }}>
           <Laptop /><div><span>Campus inclus</span><b>12 mois</b></div>
