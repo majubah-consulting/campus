@@ -757,6 +757,7 @@ img { display: block; max-width: 100%; }
 .podcast-orbit--two { width: 360px; height: 360px; left: -210px; bottom: 20px; border-style: dashed; animation: trainerOrbitReverse 28s linear infinite; }
 .podcast-heading { margin-bottom: 62px; display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(55px,8vw,120px); align-items: end; }
 .podcast-title-block h2 { margin: 20px 0 14px; font: 760 clamp(48px,6.2vw,82px)/.96 'Inter'; letter-spacing: -.065em; }
+.podcast-title-block h2 em { color: #ef3340; font-style: normal; }
 .podcast-title-block p { max-width: 650px; margin: 0; color: #9ab0b8; font: 550 clamp(20px,2.1vw,28px)/1.35 'Inter'; letter-spacing: -.025em; }
 .podcast-intro > p { margin: 0; color: rgba(255,255,255,.62); font-size: 16px; line-height: 1.7; }
 .podcast-actions { margin-top: 27px; display: flex; align-items: center; flex-wrap: wrap; gap: 11px; }

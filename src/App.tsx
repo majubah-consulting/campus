@@ -972,7 +972,7 @@ function Podcast() {
         <div className="podcast-heading">
           <Reveal className="podcast-title-block">
             <span className="eyebrow eyebrow--light">LE MÉDIA MAJUBAH</span>
-            <h2>MAJUBAH Podcast</h2>
+            <h2>MAJUBAH <em>Podcast</em></h2>
             <p>Des conversations pour repenser l’apprentissage à l’ère de l’intelligence artificielle.</p>
           </Reveal>
           <Reveal className="podcast-intro" delay={.1}>
