@@ -682,7 +682,7 @@ function Immersion() {
                   <motion.div key="video" className={`heygen-player${isVideoReady ? ' is-ready' : ''}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .35 }}>
                     <span className="video-loading" aria-hidden="true"><i /><b>Chargement de la présentation…</b></span>
                     <iframe
-                      src="https://app.heygen.com/embeds/c5f83ad7c97a473798d347434347f218"
+                      src="https://app.heygen.com/embeds/d2f4c83c78474c928ef65b5bffad612b"
                       title="Vidéo de présentation MAJUBAH"
                       allow="encrypted-media; picture-in-picture; fullscreen"
                       referrerPolicy="strict-origin-when-cross-origin"
@@ -691,7 +691,7 @@ function Immersion() {
                       allowFullScreen
                     />
                     <button className="video-close" onClick={() => { setIsPlaying(false); setIsVideoReady(false) }} aria-label="Revenir à l’image de présentation"><X /></button>
-                    <a className="video-fallback" href="https://app.heygen.com/embeds/c5f83ad7c97a473798d347434347f218" target="_blank" rel="noreferrer">Ouvrir la vidéo</a>
+                    <a className="video-fallback" href="https://app.heygen.com/embeds/d2f4c83c78474c928ef65b5bffad612b" target="_blank" rel="noreferrer">Ouvrir la vidéo</a>
                   </motion.div>
                 )}
               </AnimatePresence>
