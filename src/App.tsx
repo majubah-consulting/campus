@@ -943,7 +943,7 @@ function Trainer() {
           <div className="trainer-orbit trainer-orbit--one" /><div className="trainer-orbit trainer-orbit--two" />
           <div className="trainer-shape" />
           <motion.div className="trainer-photo-frame" whileHover={{ y: -8, rotateY: -2, rotateX: 1.5 }} transition={{ type: 'spring', stiffness: 180, damping: 18 }}>
-            <img src={assetPath('baudry.jpg')} alt="Baudry Bahuna, fondateur et formateur MAJUBAH Consulting" loading="lazy" />
+            <img src={assetPath('baudry-presenter.png')} alt="Baudry Bahuna, fondateur et formateur MAJUBAH Consulting" loading="lazy" />
             <span className="trainer-photo-scan" /><span className="trainer-photo-index">MAJUBAH / 01</span>
           </motion.div>
           <motion.div className="trainer-quote" initial={{ opacity: 0, x: 35, rotate: 2 }} whileInView={{ opacity: 1, x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ delay: .55, duration: .7 }}>“Comprendre l’IA, c’est surtout apprendre à mieux décider.”<small>— BAUDRY BAHUNA</small></motion.div>
