@@ -802,8 +802,8 @@ img { display: block; max-width: 100%; }
   .podcast-intro > p { font-size: 14px; }
   .podcast-actions { align-items: stretch; flex-direction: column; }
   .podcast-button { width: 100%; }
-  .podcast-visual { padding-bottom: 66px; }
-  .podcast-visual figure { aspect-ratio: 16/9; border-radius: 22px; }
+  .podcast-visual { padding-bottom: 0; }
+  .podcast-visual figure { aspect-ratio: 16/9; border-radius: 22px; transform: none !important; }
   .podcast-visual figure > img { object-position: 50% center; }
   .podcast-status { left: 14px; top: 14px; min-height: 42px; padding: 0 12px; }
   .podcast-caption { left: 18px; right: 18px; bottom: 23px; }
@@ -811,7 +811,7 @@ img { display: block; max-width: 100%; }
   .podcast-caption span { font-size: 6px; }
   .podcast-caption strong { font-size: 22px; }
   .podcast-wave { display: none; }
-  .podcast-brand-card { right: 12px; bottom: 0; width: calc(100% - 24px); min-height: 70px; grid-template-columns: 145px 1fr; }
+  .podcast-brand-card { position: relative; right: auto; bottom: auto; width: 100%; min-height: 70px; margin-top: 12px; grid-template-columns: 145px 1fr; }
 }
 
 /* Scroll-expand campus portal */
