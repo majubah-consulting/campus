@@ -1090,6 +1090,39 @@ img { display: block; max-width: 100%; }
 @keyframes portraitOrbit { from { transform: translate(-50%,-50%) rotate(0); } to { transform: translate(-50%,-50%) rotate(360deg); } }
 @keyframes portraitOrbitReverse { from { transform: translate(-50%,-50%) rotate(360deg); } to { transform: translate(-50%,-50%) rotate(0); } }
 
+/* Formation de formateurs */
+.train-trainer-section { overflow: hidden; padding-top: 34px; background: linear-gradient(180deg,#fff 0%,#f5f8f8 100%); }
+.train-trainer-shell { position: relative; min-height: 570px; padding: clamp(38px,5vw,68px); display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(50px,6vw,92px); align-items: center; overflow: hidden; border: 1px solid rgba(25,71,89,.09); border-radius: 34px; background: radial-gradient(circle at 6% 100%,rgba(235,84,54,.18),transparent 30%),linear-gradient(135deg,#123d4d 0%,#0c303d 56%,#081f29 100%); color: #fff; box-shadow: 0 34px 80px rgba(13,48,61,.2); isolation: isolate; }
+.train-trainer-shell::before { content: ''; position: absolute; z-index: -1; width: 1px; height: 68%; left: 53.5%; top: 16%; background: linear-gradient(180deg,transparent,rgba(255,255,255,.15),transparent); }
+.train-trainer-orbit { position: absolute; z-index: -1; border: 1px solid rgba(255,255,255,.08); border-radius: 50%; pointer-events: none; }
+.train-trainer-orbit::after { content: ''; position: absolute; width: 7px; height: 7px; top: -4px; left: calc(50% - 4px); border-radius: 50%; background: var(--orange); box-shadow: 0 0 18px rgba(235,84,54,.75); }
+.train-trainer-orbit--one { width: 480px; height: 480px; left: -205px; bottom: -245px; animation: trainerOrbit 26s linear infinite; }
+.train-trainer-orbit--two { width: 310px; height: 310px; right: -145px; top: -135px; border-style: dashed; animation: trainerOrbitReverse 22s linear infinite; }
+.train-trainer-copy { position: relative; z-index: 1; }
+.train-trainer-label { width: fit-content; margin-bottom: 38px; padding: 9px 13px 9px 9px; display: flex; align-items: center; gap: 11px; border: 1px solid rgba(255,255,255,.15); border-radius: 12px; background: rgba(255,255,255,.065); backdrop-filter: blur(10px); }
+.train-trainer-label > span { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 9px; background: var(--orange); color: #fff; }
+.train-trainer-label svg { width: 17px; }
+.train-trainer-label > div { display: flex; flex-direction: column; gap: 4px; }
+.train-trainer-label small { color: #ff9078; font: 800 6px/1 'Inter'; letter-spacing: .14em; }
+.train-trainer-label strong { color: #fff; font: 750 11px/1.2 'Inter'; }
+.train-trainer-copy .eyebrow { margin: 0 0 17px; color: #ff8066; }
+.train-trainer-copy h2 { max-width: 640px; margin: 0; font: 750 clamp(40px,4.2vw,62px)/1.02 'Inter'; letter-spacing: -.06em; }
+.train-trainer-copy h2 em { margin-top: 6px; display: block; color: #8ba5ae; font-style: normal; }
+.train-trainer-intro { max-width: 620px; margin: 26px 0 30px; color: rgba(255,255,255,.62); font-size: 15px; line-height: 1.72; }
+.train-trainer-cta { width: fit-content; background: var(--orange); color: #fff; box-shadow: 0 15px 35px rgba(235,84,54,.24); }
+.train-trainer-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 42px rgba(235,84,54,.34); }
+.train-trainer-note { margin-top: 14px; display: block; color: rgba(255,255,255,.38); font-size: 8px; letter-spacing: .04em; }
+.train-trainer-pillars { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; }
+.train-trainer-pillars article { min-height: 126px; padding: 22px 24px; display: grid; grid-template-columns: 28px 48px 1fr 22px; gap: 15px; align-items: center; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(255,255,255,.07); backdrop-filter: blur(12px); transition: transform .28s,border-color .28s,background .28s; }
+.train-trainer-pillars article:hover { transform: translateX(-6px); border-color: rgba(255,128,102,.4); background: rgba(255,255,255,.1); }
+.train-trainer-index { align-self: start; color: rgba(255,255,255,.28); font: 800 8px/1 'Inter'; letter-spacing: .1em; }
+.train-trainer-icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 14px; background: rgba(235,84,54,.13); color: #ff8066; }
+.train-trainer-icon svg { width: 21px; }
+.train-trainer-pillars h3 { margin: 0 0 7px; color: #fff; font: 760 18px/1.1 'Inter'; letter-spacing: -.025em; }
+.train-trainer-pillars p { margin: 0; color: rgba(255,255,255,.52); font-size: 11px; line-height: 1.55; }
+.train-trainer-arrow { width: 17px; color: rgba(255,255,255,.32); transition: color .25s,transform .25s; }
+.train-trainer-pillars article:hover .train-trainer-arrow { color: #ff8066; transform: translateX(3px); }
+
 /* Tarifs */
 .pricing-section { overflow: hidden; background: linear-gradient(180deg,#f7f9f9,#fff); }
 .pricing-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 18px; align-items: stretch; }
@@ -1454,6 +1487,9 @@ img { display: block; max-width: 100%; }
   .testimonial-portraits { width: min(100%,520px); height: 470px; margin: 0 auto; }
   .testimonial-portrait { width: 285px; height: 370px; }
   .testimonial-story { min-height: 520px; }
+  .train-trainer-shell { grid-template-columns: 1fr; gap: 48px; }
+  .train-trainer-shell::before { display: none; }
+  .train-trainer-copy { max-width: 650px; }
   .faq-layout { grid-template-columns: 1fr; }
   .booking-layout { grid-template-columns: 1fr; }
   .booking-copy--top { margin-bottom: 58px; }
@@ -1653,6 +1689,17 @@ img { display: block; max-width: 100%; }
   .testimonial-arrows button { width: 39px; height: 39px; }
   .testimonial-dots { display: none; }
   .testimonial-count { justify-self: end; }
+  .train-trainer-section { padding-top: 18px; }
+  .train-trainer-shell { padding: 30px 20px; border-radius: 24px; }
+  .train-trainer-label { margin-bottom: 30px; }
+  .train-trainer-copy h2 { font-size: 40px; }
+  .train-trainer-intro { font-size: 14px; }
+  .train-trainer-cta { width: 100%; justify-content: center; }
+  .train-trainer-note { max-width: 260px; line-height: 1.5; }
+  .train-trainer-pillars article { min-height: 0; padding: 18px 16px; grid-template-columns: 22px 42px 1fr; gap: 12px; }
+  .train-trainer-icon { width: 42px; height: 42px; border-radius: 12px; }
+  .train-trainer-pillars p { font-size: 10px; }
+  .train-trainer-arrow { display: none; }
   .booking-section { padding: 100px 0; }
   .booking-copy--top { margin-bottom: 42px; text-align: left; }
   .booking-copy--top > p { margin-left: 0; }

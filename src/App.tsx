@@ -1366,6 +1366,44 @@ function Testimonials() {
   )
 }
 
+function TrainTheTrainer() {
+  const pillars = [
+    { icon: GraduationCap, index: '01', title: 'Concevoir', text: 'Structurer des objectifs clairs et une progression pédagogique qui fait avancer.' },
+    { icon: Users, index: '02', title: 'Animer', text: 'Créer une dynamique de groupe, maintenir l’engagement et trouver la juste posture.' },
+    { icon: Sparkles, index: '03', title: 'Faire évoluer', text: 'Évaluer, améliorer et intégrer l’IA avec discernement dans ses pratiques.' },
+  ]
+
+  return (
+    <section className="section train-trainer-section" id="formation-formateurs">
+      <div className="container">
+        <motion.div className="train-trainer-shell" initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .2 }} transition={{ duration: .75, ease: [0.22, 1, 0.36, 1] }}>
+          <span className="train-trainer-orbit train-trainer-orbit--one" />
+          <span className="train-trainer-orbit train-trainer-orbit--two" />
+          <div className="train-trainer-copy">
+            <div className="train-trainer-label"><span><Presentation /></span><div><small>OFFRE COMPLÉMENTAIRE</small><strong>Formation de formateurs</strong></div></div>
+            <p className="eyebrow">POUR CELLES ET CEUX QUI TRANSMETTENT</p>
+            <h2>Former ne s’improvise pas.<em>Ça se construit.</em></h2>
+            <p className="train-trainer-intro">Une formation pensée pour les professionnels qui souhaitent concevoir, animer et faire évoluer des parcours réellement engageants — avec une place juste pour l’intelligence artificielle.</p>
+            <a className="button train-trainer-cta" href="mailto:baudry@majubahconsulting.com?subject=Recevoir%20le%20programme%20%E2%80%94%20Formation%20de%20formateurs&body=Bonjour%20Baudry%2C%0A%0AJe%20souhaite%20recevoir%20le%20programme%20de%20la%20formation%20de%20formateurs.%0A%0AVous%20pouvez%20me%20recontacter%20pour%20%C3%A9changer%20sur%20mon%20besoin.%0A%0ABien%20cordialement.">Recevoir le programme <ArrowRight /></a>
+            <small className="train-trainer-note">La page détaillée et les modalités seront publiées prochainement.</small>
+          </div>
+
+          <div className="train-trainer-pillars">
+            {pillars.map(({ icon: Icon, index, title, text }, pillarIndex) => (
+              <motion.article key={title} initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: .35 }} transition={{ duration: .55, delay: .12 + pillarIndex * .1, ease: [0.22, 1, 0.36, 1] }}>
+                <span className="train-trainer-index">{index}</span>
+                <span className="train-trainer-icon"><Icon /></span>
+                <div><h3>{title}</h3><p>{text}</p></div>
+                <ArrowRight className="train-trainer-arrow" />
+              </motion.article>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
 function Pricing() {
   return (
     <section className="section pricing-section" id="tarifs">
@@ -1650,6 +1688,7 @@ export default function App() {
         <AICompass />
         <CompassSignup source="section-boussole" />
         <Testimonials />
+        <TrainTheTrainer />
         <Pricing />
         <FAQ />
         <Booking />
