@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0d3442" />
+    <meta name="description" content="Politique de confidentialité, cookies et mesure d’audience du site Campus MAJUBAH." />
+    <title>Confidentialité &amp; cookies — Campus MAJUBAH</title>
+    <link rel="icon" type="image/png" href="./favicon-32.png" />
+    <style>
+      :root { --blue:#194759; --deep:#0b2d39; --orange:#eb5436; --ink:#112c38; --muted:#687e87; --line:#dfe7e9; --paper:#f5f7f7; --green:#55d792; }
+      * { box-sizing:border-box; }
+      html { scroll-behavior:smooth; }
+      body { margin:0; background:var(--paper); color:var(--ink); font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+      a { color:inherit; }
+      .topbar { position:sticky; z-index:10; top:0; border-bottom:1px solid rgba(25,71,89,.1); background:rgba(255,255,255,.94); backdrop-filter:blur(16px); }
+      .topbar-inner { width:min(1120px,calc(100% - 40px)); min-height:88px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+      .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+      .brand img { width:54px; height:54px; object-fit:contain; }
+      .brand span { display:flex; flex-direction:column; font-weight:850; letter-spacing:.13em; }
+      .brand small { color:var(--orange); font-size:10px; letter-spacing:.17em; }
+      .back { min-height:44px; padding:0 18px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:12px; color:var(--blue); font-weight:750; font-size:13px; text-decoration:none; }
+      main { width:min(1120px,calc(100% - 40px)); margin:64px auto 100px; }
+      .hero { padding:58px; overflow:hidden; position:relative; border-radius:30px; background:radial-gradient(circle at 88% 5%,#28667a,#123e4d 38%,#092833 78%); color:white; }
+      .hero::after { content:""; position:absolute; width:420px; height:420px; right:-170px; top:-190px; border:1px solid rgba(255,255,255,.12); border-radius:50%; box-shadow:0 0 0 62px rgba(255,255,255,.025),0 0 0 124px rgba(255,255,255,.025); }
+      .eyebrow { color:#ff8b72; font-size:11px; font-weight:850; letter-spacing:.16em; }
+      h1 { max-width:840px; margin:20px 0 18px; font-size:clamp(42px,7vw,78px); line-height:.98; letter-spacing:-.06em; }
+      .hero p { max-width:690px; margin:0; color:rgba(255,255,255,.7); line-height:1.7; }
+      .updated { margin-top:28px; display:inline-flex; padding:9px 12px; border:1px solid rgba(255,255,255,.13); border-radius:99px; color:rgba(255,255,255,.72); font-size:11px; }
+      .summary { margin-top:18px; display:flex; align-items:center; gap:10px; color:rgba(255,255,255,.78); font-size:12px; }
+      .summary i { width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 16px rgba(85,215,146,.8); }
+      .legal-grid { margin-top:26px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+      article { padding:32px; border:1px solid var(--line); border-radius:22px; background:white; box-shadow:0 18px 45px rgba(25,71,89,.055); }
+      article.wide { grid-column:1/-1; }
+      article > span { color:var(--orange); font-size:9px; font-weight:850; letter-spacing:.15em; }
+      h2 { margin:10px 0 18px; font-size:25px; letter-spacing:-.035em; }
+      p,li,address { color:var(--muted); font-size:14px; line-height:1.72; font-style:normal; }
+      p { margin:0 0 12px; }
+      p:last-child { margin-bottom:0; }
+      strong { color:var(--ink); }
+      ul { margin:0; padding-left:20px; }
+      .notice { margin-top:18px; padding:14px 16px; border-radius:13px; background:rgba(235,84,54,.065); color:#6a4d46; font-size:12px; line-height:1.55; }
+      .status { margin-top:18px; display:flex; align-items:center; gap:9px; color:#3c7460; font-size:12px; font-weight:750; }
+      .status i { width:8px; height:8px; border-radius:50%; background:var(--green); }
+      .contact { display:inline-flex; margin-top:10px; color:var(--blue); font-weight:800; text-underline-offset:4px; }
+      .legal-links { margin-top:24px; padding:0 4px; display:flex; flex-wrap:wrap; gap:12px 24px; color:var(--muted); font-size:12px; }
+      .legal-links a { text-underline-offset:4px; }
+      footer { padding:34px 20px; background:#081d26; color:rgba(255,255,255,.55); text-align:center; font-size:11px; line-height:1.7; }
+      footer strong { color:white; }
+      @media (max-width:720px) {
+        .topbar-inner,main { width:calc(100% - 28px); }
+        .topbar-inner { min-height:74px; }
+        .brand span { display:none; }
+        .brand img { width:46px; height:46px; }
+        main { margin-top:28px; margin-bottom:64px; }
+        .hero { padding:34px 24px; border-radius:22px; }
+        .hero p { font-size:14px; }
+        .legal-grid { grid-template-columns:1fr; }
+        article,article.wide { grid-column:auto; padding:24px 20px; border-radius:18px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="./" aria-label="Retour au site Campus MAJUBAH"><img src="./assets/sigle-orange.png" alt="" /><span>MAJUBAH <small>CONSULTING</small></span></a>
+        <a class="back" href="./">← Retour au site</a>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <span class="eyebrow">VIE PRIVÉE &amp; TRANSPARENCE</span>
+        <h1>Confidentialité &amp; cookies</h1>
+        <p>Cette page explique simplement quelles données peuvent être traitées lorsque vous consultez campus-majubah.com ou transmettez une demande à MAJUBAH Consulting.</p>
+        <div class="summary"><i></i><span>Aucun traceur publicitaire ou marketing n’est utilisé actuellement.</span></div>
+        <span class="updated">Mise à jour : 2 juillet 2026</span>
+      </section>
+
+      <section class="legal-grid">
+        <article>
+          <span>01 — RESPONSABLE DU SITE</span>
+          <h2>MAJUBAH Consulting</h2>
+          <p>Le site <strong>campus-majubah.com</strong> est édité par MAJUBAH Consulting, qui détermine les finalités et les moyens des traitements décrits sur cette page.</p>
+          <p>Pour toute question relative à la confidentialité ou pour exercer vos droits :</p>
+          <a class="contact" href="mailto:contact@majubahconsulting.com">contact@majubahconsulting.com</a>
+        </article>
+
+        <article>
+          <span>02 — HÉBERGEMENT</span>
+          <h2>Cloudflare Pages</h2>
+          <p>Le site campus-majubah.com est hébergé et diffusé via <strong>Cloudflare Pages</strong>, service fourni par Cloudflare, Inc.</p>
+          <p>Cloudflare fournit également l’infrastructure de diffusion, le DNS, le chiffrement SSL, l’optimisation des performances et certains mécanismes de protection du site.</p>
+        </article>
+
+        <article class="wide">
+          <span>03 — MESURE D’AUDIENCE</span>
+          <h2>Cloudflare Web Analytics</h2>
+          <p>MAJUBAH Consulting utilise <strong>Cloudflare Web Analytics</strong> afin de comprendre de manière agrégée la fréquentation du site et d’en améliorer les performances : pages consultées, provenance générale de la visite, type d’appareil ou de navigateur, zone géographique approximative et temps de chargement.</p>
+          <p>Selon Cloudflare, ce service est conçu selon une approche respectueuse de la vie privée et n’a pas pour finalité d’établir des profils publicitaires individuels. Les statistiques servent uniquement à piloter et améliorer le site.</p>
+          <div class="notice">Le site n’utilise actuellement ni Google Analytics, ni Meta Pixel, ni LinkedIn Insight Tag.</div>
+        </article>
+
+        <article>
+          <span>04 — COOKIES &amp; TRACEURS</span>
+          <h2>Pas de publicité ciblée</h2>
+          <p>Aucun cookie publicitaire, traceur marketing ou dispositif de reciblage n’est actuellement déposé par MAJUBAH Consulting.</p>
+          <p>Le site n’affiche donc pas de bannière de consentement intrusive. Si un outil nécessitant votre consentement était ajouté à l’avenir, il ne serait activé qu’après la mise en place d’un choix clair et préalable.</p>
+          <div class="status"><i></i><span>Configuration actuelle : sans traceur marketing</span></div>
+        </article>
+
+        <article>
+          <span>05 — SÉCURITÉ</span>
+          <h2>Protection du site</h2>
+          <p>Cloudflare peut traiter des informations techniques indispensables à la sécurité et au bon fonctionnement du site, telles que l’adresse IP, les en-têtes de navigation, les requêtes effectuées et des signaux permettant d’identifier un trafic automatisé ou abusif.</p>
+          <p>Ces traitements visent à protéger campus-majubah.com contre les attaques, les abus, les robots malveillants et les indisponibilités.</p>
+          <p>Un widget Cloudflare Turnstile est envisagé mais n’est pas encore intégré aux formulaires publics. Cette page sera mise à jour avant son activation.</p>
+        </article>
+
+        <article>
+          <span>06 — DONNÉES PERSONNELLES</span>
+          <h2>Formulaires et demandes</h2>
+          <p>Lorsque vous transmettez volontairement des informations par un formulaire ou par email, elles sont utilisées uniquement pour répondre à votre demande, préparer un échange, traiter une préinscription ou assurer le suivi de la relation avec MAJUBAH Consulting.</p>
+          <p>Les données demandées peuvent inclure vos nom, prénom, coordonnées, entreprise, choix de session, besoin de financement et message. Elles ne sont ni vendues ni utilisées à des fins publicitaires sans votre accord.</p>
+          <p>Elles sont conservées pendant la durée nécessaire au traitement de la demande et au respect des obligations légales applicables.</p>
+        </article>
+
+        <article>
+          <span>07 — VOS DROITS</span>
+          <h2>Vous gardez le contrôle</h2>
+          <p>Conformément au RGPD et à la loi Informatique et Libertés, vous pouvez demander l’accès à vos données, leur rectification ou leur suppression. Vous pouvez également vous opposer à un traitement ou en demander la limitation, lorsque ces droits sont applicables.</p>
+          <p>Pour exercer vos droits, écrivez à <a href="mailto:contact@majubahconsulting.com">contact@majubahconsulting.com</a> en précisant votre demande. Une vérification d’identité pourra être demandée en cas de doute raisonnable.</p>
+          <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la <a href="https://www.cnil.fr/" target="_blank" rel="noreferrer">CNIL</a>.</p>
+        </article>
+
+        <article class="wide">
+          <span>08 — ÉVOLUTION DE CETTE PAGE</span>
+          <h2>Une information tenue à jour</h2>
+          <p>Cette politique peut évoluer pour refléter une modification du site, de ses formulaires, de ses prestataires ou de la réglementation. La date de mise à jour affichée en haut de page permet d’identifier la version en vigueur.</p>
+          <p>Si des traceurs marketing ou publicitaires sont ajoutés ultérieurement, la présente politique sera actualisée et un mécanisme de consentement adapté sera mis en place avant leur utilisation.</p>
+        </article>
+      </section>
+
+      <nav class="legal-links" aria-label="Autres informations juridiques">
+        <a href="./mentions-legales.html">Mentions légales</a>
+        <a href="./conditions-generales-de-vente.html">Conditions générales de vente</a>
+        <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noreferrer">Politique de confidentialité Cloudflare</a>
+      </nav>
+    </main>
+    <footer><strong>MAJUBAH Consulting</strong><br />Site créé par Baudry Bahuna — Fondateur de MAJUBAH Consulting</footer>
+  </body>
+</html>

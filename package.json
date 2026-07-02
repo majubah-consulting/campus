@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --open /index.source.html",
     "build": "tsc -b && vite build && mv dist/index.source.html dist/index.html",
-    "release:pages": "npm run build && rsync -a --delete dist/assets/ assets/ && cp dist/index.html index.html && cp dist/mentions-legales.html mentions-legales.html && cp dist/conditions-generales-de-vente.html conditions-generales-de-vente.html && cp dist/favicon-32.png favicon-32.png && cp dist/apple-touch-icon.png apple-touch-icon.png",
+    "release:pages": "npm run build && rsync -a --delete dist/assets/ assets/ && cp dist/index.html index.html && cp dist/mentions-legales.html mentions-legales.html && cp dist/conditions-generales-de-vente.html conditions-generales-de-vente.html && cp dist/confidentialite.html confidentialite.html && cp dist/favicon-32.png favicon-32.png && cp dist/apple-touch-icon.png apple-touch-icon.png",
     "preview": "vite preview",
     "lint": "tsc -b --pretty false"
   },
