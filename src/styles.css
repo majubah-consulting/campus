@@ -300,6 +300,7 @@ img { display: block; max-width: 100%; }
 
 /* Immersion */
 .immersion-section { padding: 150px 0 120px; overflow: hidden; background: #0d3442; color: #fff; perspective: 1600px; }
+.immersion-section--video { perspective: none; }
 .immersion-section::before { content: ''; position: absolute; inset: 0; opacity: .1; background-image: linear-gradient(rgba(255,255,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px); background-size: 55px 55px; mask-image: linear-gradient(transparent,black 30%,black 78%,transparent); }
 .immersion-orb { position: absolute; border-radius: 50%; pointer-events: none; }
 .immersion-orb--one { width: 680px; height: 680px; left: -280px; top: -250px; background: radial-gradient(circle,rgba(235,84,54,.22),transparent 68%); }
@@ -309,6 +310,8 @@ img { display: block; max-width: 100%; }
 .immersion-heading h2 em { color: #93abb4; font-style: normal; }
 .immersion-heading p { max-width: 640px; margin: 0 auto; color: rgba(255,255,255,.62); font-size: 18px; line-height: 1.6; }
 .ipad-scene { position: relative; z-index: 3; width: min(1080px,94%); margin: 0 auto; transform-style: preserve-3d; transform-origin: center bottom; }
+.ipad-scene--playing { transform: none !important; transform-style: flat !important; }
+.ipad-scene--playing .ipad-device,.ipad-scene--playing .ipad-screen,.ipad-scene--playing .heygen-player { transform: none !important; transform-style: flat !important; }
 .ipad-device { position: relative; padding: 17px; border: 1px solid rgba(255,255,255,.21); border-radius: 42px; background: linear-gradient(145deg,#354a52 0%,#0a151a 48%,#40545c 100%); box-shadow: 0 55px 100px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.32), inset 0 -2px 5px rgba(0,0,0,.7); }
 .ipad-device::after { content: ''; position: absolute; inset: 5px; border: 1px solid rgba(255,255,255,.1); border-radius: 36px; pointer-events: none; }
 .ipad-side-button { position: absolute; right: -4px; top: 88px; width: 5px; height: 70px; border-radius: 0 4px 4px 0; background: #18262c; box-shadow: 1px 0 0 rgba(255,255,255,.18); }
@@ -326,12 +329,18 @@ img { display: block; max-width: 100%; }
 .presentation-label { position: absolute; left: 35px; bottom: 30px; display: flex; flex-direction: column; gap: 6px; }
 .presentation-label small { color: #ff8d73; font: 800 9px/1 'Inter'; letter-spacing: .15em; }
 .presentation-label b { font: 700 17px/1.1 'Inter'; }
-.heygen-player { position: absolute; inset: 0; background: #000; }
-.heygen-player iframe { width: 100%; height: 100%; display: block; border: 0; background: #000; }
+.heygen-player { position: absolute; inset: 0; overflow: hidden; background: #03080a; isolation: isolate; }
+.heygen-player iframe { position: relative; z-index: 2; width: 100%; height: 100%; display: block; border: 0; background: #03080a; opacity: 0; transition: opacity .35s ease; }
+.heygen-player.is-ready iframe { opacity: 1; }
+.video-loading { position: absolute; z-index: 1; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; color: rgba(255,255,255,.62); transition: opacity .25s; pointer-events: none; }
+.video-loading i { width: 32px; height: 32px; border: 2px solid rgba(255,255,255,.17); border-top-color: var(--orange); border-radius: 50%; animation: videoLoader .8s linear infinite; }
+.video-loading b { font: 750 10px/1 'Inter'; letter-spacing: .05em; }
+.heygen-player.is-ready .video-loading { opacity: 0; }
 .video-close { position: absolute; z-index: 9; top: 14px; right: 14px; width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.28); border-radius: 50%; background: rgba(5,17,22,.6); color: #fff; backdrop-filter: blur(10px); cursor: pointer; }
 .video-close svg { width: 17px; }
 .video-fallback { position: absolute; z-index: 9; right: 62px; top: 17px; min-height: 32px; padding: 0 12px; display: inline-flex; align-items: center; border: 1px solid rgba(255,255,255,.22); border-radius: 99px; background: rgba(5,17,22,.62); color: #fff; font: 750 9px/1 'Inter'; backdrop-filter: blur(10px); }
-.ipad-reflection { position: absolute; z-index: 7; inset: 0; pointer-events: none; background: linear-gradient(120deg,rgba(255,255,255,.08),transparent 24%,transparent 70%,rgba(255,255,255,.04)); mix-blend-mode: screen; }
+.ipad-reflection { position: absolute; z-index: 7; inset: 0; pointer-events: none; background: linear-gradient(120deg,rgba(255,255,255,.08),transparent 24%,transparent 70%,rgba(255,255,255,.04)); mix-blend-mode: screen; transition: opacity .25s; }
+.ipad-scene--playing .ipad-reflection { opacity: 0; }
 .ipad-floor-shadow { width: 82%; height: 55px; margin: 15px auto 0; border-radius: 50%; background: rgba(0,0,0,.34); filter: blur(20px); transform: rotateX(70deg); }
 .immersion-trust { position: relative; z-index: 2; margin-top: 35px; padding: 24px 28px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 30px; border: 1px solid rgba(255,255,255,.13); border-radius: 18px; background: rgba(255,255,255,.055); backdrop-filter: blur(16px); }
 .immersion-trust > strong { font: 750 15px/1.2 'Inter'; }
@@ -341,6 +350,7 @@ img { display: block; max-width: 100%; }
 .immersion-trust > a { min-height: 44px; padding: 0 17px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; border-radius: 10px; background: var(--orange); color: #fff; font-weight: 800; font-size: 13px; }
 .immersion-trust > a svg { width: 16px; }
 @keyframes videoPulse { 0% { transform: scale(.75); opacity: .8; } 85%,100% { transform: scale(1.25); opacity: 0; } }
+@keyframes videoLoader { to { transform: rotate(360deg); } }
 
 /* Skills */
 .skills-section { overflow: hidden; background: linear-gradient(180deg,#fff 0%,#f7f9f9 100%); }

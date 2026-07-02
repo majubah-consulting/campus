@@ -632,6 +632,7 @@ function Method() {
 function Immersion() {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isVideoReady, setIsVideoReady] = useState(false)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -642,7 +643,7 @@ function Immersion() {
   const tabletY = useTransform(scrollYProgress, [0, .64], [85, 0])
 
   return (
-    <section ref={sectionRef} className="section immersion-section" id="immersion">
+    <section ref={sectionRef} className={`section immersion-section${isPlaying ? ' immersion-section--video' : ''}`} id="immersion">
       <div className="immersion-orb immersion-orb--one" />
       <div className="immersion-orb immersion-orb--two" />
       <div className="container">
@@ -653,8 +654,8 @@ function Immersion() {
         </Reveal>
 
         <motion.div
-          className="ipad-scene"
-          style={reduce ? {} : { rotateX: tabletRotateX, scale: tabletScale, y: tabletY, transformPerspective: 1400 }}
+          className={`ipad-scene${isPlaying ? ' ipad-scene--playing' : ''}`}
+          style={reduce || isPlaying ? {} : { rotateX: tabletRotateX, scale: tabletScale, y: tabletY, transformPerspective: 1400 }}
         >
           <div className="ipad-device">
             <div className="ipad-side-button" />
@@ -665,7 +666,7 @@ function Immersion() {
                   <motion.button
                     key="cover"
                     className="presentation-cover"
-                    onClick={() => setIsPlaying(true)}
+                    onClick={() => { setIsVideoReady(false); setIsPlaying(true) }}
                     aria-label="Lancer la vidéo de présentation MAJUBAH"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -678,14 +679,18 @@ function Immersion() {
                     <span className="presentation-label"><small>PRÉSENTATION</small><b>Lancer la vidéo</b></span>
                   </motion.button>
                 ) : (
-                  <motion.div key="video" className="heygen-player" initial={{ opacity: 0, scale: .985 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: .5 }}>
+                  <motion.div key="video" className={`heygen-player${isVideoReady ? ' is-ready' : ''}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .35 }}>
+                    <span className="video-loading" aria-hidden="true"><i /><b>Chargement de la présentation…</b></span>
                     <iframe
-                      src="https://app.heygen.com/embeds/c5f83ad7c97a473798d347434347f218?autoplay=1"
+                      src="https://app.heygen.com/embeds/c5f83ad7c97a473798d347434347f218"
                       title="Vidéo de présentation MAJUBAH"
-                      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                      allow="encrypted-media; picture-in-picture; fullscreen"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      loading="eager"
+                      onLoad={() => setIsVideoReady(true)}
                       allowFullScreen
                     />
-                    <button className="video-close" onClick={() => setIsPlaying(false)} aria-label="Revenir à l’image de présentation"><X /></button>
+                    <button className="video-close" onClick={() => { setIsPlaying(false); setIsVideoReady(false) }} aria-label="Revenir à l’image de présentation"><X /></button>
                     <a className="video-fallback" href="https://app.heygen.com/embeds/c5f83ad7c97a473798d347434347f218" target="_blank" rel="noreferrer">Ouvrir la vidéo</a>
                   </motion.div>
                 )}
