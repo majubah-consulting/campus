@@ -1,11 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 export default defineConfig({
   // Des chemins relatifs permettent au même build de fonctionner à la racine
   // de Cloudflare Pages et dans le sous-dossier /campus/ de GitHub Pages.
   base: './',
-  plugins: [react()],
+  plugins: [react(), cloudflare()],
   build: {
     rollupOptions: { input: 'index.source.html' },
   },
