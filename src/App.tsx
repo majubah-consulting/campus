@@ -44,7 +44,6 @@ import {
   Zap,
   type LucideIcon,
 } from 'lucide-react'
-import { SplineScene } from './components/SplineScene'
 
 const assetPath = (name: string) => `${import.meta.env.BASE_URL}assets/${name}`
 
@@ -170,6 +169,16 @@ const agendaMonths = [
   { year: 2026, month: 6, label: 'Juillet' }, { year: 2026, month: 7, label: 'Août' }, { year: 2026, month: 8, label: 'Septembre' },
   { year: 2026, month: 9, label: 'Octobre' }, { year: 2026, month: 10, label: 'Novembre' }, { year: 2026, month: 11, label: 'Décembre' },
 ] as const
+
+function findNextAgendaEvent(kind: 'training' | 'onsite' | 'remote' | 'workshop' = 'training') {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const matches = agendaEvents.filter((event) => kind === 'training' ? event.type !== 'workshop' : event.type === kind)
+  return matches.find((event) => {
+    const lastDay = new Date(event.year, event.month, event.day + event.duration - 1)
+    return lastDay >= today
+  }) ?? matches[0] ?? agendaEvents[0]
+}
 
 function openBookingCalendar(eventId?: string) {
   if (eventId) window.dispatchEvent(new CustomEvent('majubah:select-booking', { detail: { eventId } }))
@@ -297,13 +306,13 @@ function Header() {
       <div className="header-inner">
         <Logo light={!scrolled} />
         <nav className="desktop-nav" aria-label="Navigation principale">
-          <a href="#programme">Formation</a>
-          <a href="#campus-digital">Campus numérique</a>
-          <a href="#boussole-inscription">Boussole IA</a>
-          <a href="#ateliers">Ateliers</a>
+          <a href="#programme">Programme</a>
+          <a href="#preuves">Résultats</a>
+          <a href="#inclus">Campus inclus</a>
+          <a href="#tarifs">Tarifs</a>
           <a href="#formateur">À propos</a>
         </nav>
-        <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar('formation-juillet') }} className="button button--small button--primary header-cta">Réserver <ArrowRight size={16} /></a>
+        <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('training').id) }} className="button button--small button--primary header-cta">Voir les dates <ArrowRight size={16} /></a>
         <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Ouvrir le menu">
           {open ? <X /> : <Menu />}
         </button>
@@ -311,8 +320,8 @@ function Header() {
       <AnimatePresence>
         {open && (
           <motion.nav className="mobile-nav" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-            {['programme', 'campus-digital', 'boussole-inscription', 'ateliers', 'formateur', 'reserver'].map((id, i) => (
-              <a key={id} href={`#${id}`} onClick={(event) => { setOpen(false); if (id === 'reserver') { event.preventDefault(); openBookingCalendar('formation-juillet') } }}>{['Formation', 'Campus numérique', 'Boussole IA', 'Ateliers', 'À propos', 'Réserver'][i]}</a>
+            {['programme', 'preuves', 'inclus', 'tarifs', 'formateur', 'reserver'].map((id, i) => (
+              <a key={id} href={`#${id}`} onClick={(event) => { setOpen(false); if (id === 'reserver') { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('training').id) } }}>{['Programme', 'Résultats', 'Campus inclus', 'Tarifs', 'À propos', 'Voir les dates'][i]}</a>
             ))}
           </motion.nav>
         )}
@@ -324,6 +333,7 @@ function Header() {
 function Hero() {
   const [word, setWord] = useState(0)
   const reduce = useReducedMotion()
+  const nextTraining = findNextAgendaEvent('training')
   useEffect(() => {
     if (reduce) return
     const timer = window.setInterval(() => setWord((current) => (current + 1) % words.length), 2200)
@@ -359,14 +369,14 @@ function Hero() {
           </div>
           <p>Une formation intensive et pratique pour comprendre, utiliser et intégrer l’IA dans votre quotidien professionnel.</p>
           <div className="hero-actions">
-            <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar('formation-juillet') }} className="button button--primary">Réserver une place <ArrowRight size={18} /></a>
-            <a href="#immersion" className="button button--glass"><CirclePlay size={19} /> Voir la présentation</a>
+            <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(nextTraining.id) }} className="button button--primary">Voir les dates disponibles <ArrowRight size={18} /></a>
+            <a href="#programme" className="button button--glass"><FileText size={19} /> Voir le programme des 3 jours</a>
           </div>
           <div className="hero-proof">
             <span><Clock3 /><b>3 jours</b></span>
-            <span><Award /><b>Certification</b></span>
-            <span><ShieldCheck /><b>CPF</b></span>
-            <span><Users /><b>+1000 pros</b></span>
+            <span><Users /><b>6 participants max.</b></span>
+            <span><ShieldCheck /><b>CPF / OPCO possible</b></span>
+            <span><Laptop /><b>Campus inclus 12 mois</b></span>
           </div>
           <div className="trust-strip"><small>Ils nous font confiance</small><b>CCI NORMANDIE</b><b>CONSTRUCTYS</b><b>AKTO</b><b>ATLAS</b></div>
         </motion.div>
@@ -375,7 +385,7 @@ function Hero() {
         <motion.div className="hero-portal-light" aria-hidden="true" animate={reduce ? {} : { opacity: [.42, .68, .42], scale: [1, 1.04, 1] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} />
         <motion.div className="session-card glass-card" initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .8, delay: .55 }}>
           <CalendarDays />
-          <div><span>Prochaine session</span><strong>20 juillet 2026</strong><small><i /> 6 places restantes</small></div>
+          <div><span>Prochaine session</span><strong>{nextTraining.dateLabel.replace(/^du\s+/i, '')}</strong><small><i /> {nextTraining.modality} · {nextTraining.detail}</small></div>
         </motion.div>
         <motion.div className="floating-card floating-card--one glass-card" animate={reduce ? {} : { y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity }}>
           <Laptop /><div><span>Campus inclus</span><b>12 mois</b></div>
@@ -386,7 +396,141 @@ function Hero() {
         <motion.div className="floating-card floating-card--three glass-card" animate={reduce ? {} : { y: [0, -6, 0] }} transition={{ duration: 4.8, repeat: Infinity, delay: .7 }}>
           <Video /><div><span>Disponible en</span><b>Classe virtuelle</b></div>
         </motion.div>
-        <a className="scroll-cue" href="#programme"><span>Entrer dans le campus</span><ArrowDown /></a>
+        <a className="scroll-cue" href="#preuves"><span>Découvrir le parcours</span><ArrowDown /></a>
+      </div>
+    </section>
+  )
+}
+
+function ConversionProof() {
+  const proofItems = [
+    { value: '+1 000', label: 'professionnels accompagnés par Baudry', icon: Users },
+    { value: '4,9/5', label: 'de satisfaction moyenne', icon: Sparkles },
+    { value: '50', label: 'recommandations visibles sur LinkedIn', icon: Linkedin },
+    { value: '12 mois', label: 'de Campus inclus après la formation', icon: Laptop },
+  ]
+  return (
+    <section className="conversion-proof" id="preuves" aria-label="Repères de confiance MAJUBAH">
+      <div className="container">
+        <div className="conversion-proof-grid">
+          {proofItems.map(({ value, label, icon: Icon }, index) => (
+            <Reveal className="conversion-proof-item" delay={index * .05} key={label}>
+              <span><Icon /></span><div><strong>{value}</strong><small>{label}</small></div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="conversion-proof-quote">
+          <img src={assetPath('testimonials/jocelyn.jpg')} alt="Jocelyn L., client de Baudry Bahuna" loading="lazy" />
+          <blockquote>« Professionnel, analytique, mais surtout profondément humain. Pas de discours rigide, juste des échanges clairs et naturels qui font réellement avancer. »</blockquote>
+          <div><strong>Jocelyn L.</strong><span>Expert en financements et marchand de biens</span></div>
+          <a href="https://www.linkedin.com/in/baudry-bahuna/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noreferrer">Voir les recommandations <ArrowRight /></a>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+function ThreeDayProgram() {
+  const days = [
+    {
+      number: '01', label: 'JOUR 1', title: 'Comprendre et bien dialoguer', icon: BrainCircuit,
+      intro: 'Vous posez des bases solides et apprenez à obtenir des réponses réellement exploitables.',
+      items: ['Choisir le bon outil selon le besoin', 'Construire des prompts clairs et fiables', 'Protéger ses données et vérifier les réponses'],
+      outcome: 'Votre méthode de prompting réutilisable',
+    },
+    {
+      number: '02', label: 'JOUR 2', title: 'Créer et analyser plus vite', icon: FileText,
+      intro: 'Vous transformez l’IA en assistant de production pour vos documents et vos décisions.',
+      items: ['Synthétiser des informations complexes', 'Créer contenus, supports et présentations', 'Adapter les résultats à votre métier'],
+      outcome: 'Un premier livrable professionnel finalisé',
+    },
+    {
+      number: '03', label: 'JOUR 3', title: 'Automatiser et devenir autonome', icon: Network,
+      intro: 'Vous reliez les outils, construisez un assistant et préparez le passage à l’action.',
+      items: ['Identifier une tâche à automatiser', 'Construire un workflow ou un copilote', 'Établir votre feuille de route à 30 jours'],
+      outcome: 'Votre plan d’action IA personnalisé',
+    },
+  ]
+  return (
+    <section className="section conversion-program" id="programme">
+      <div className="container">
+        <SectionHeading eyebrow="LE PROGRAMME CONCRET" title={<>Trois jours pour passer<br /><em>de la découverte à l’autonomie.</em></>} body="Chaque journée produit un résultat visible. Vous pratiquez sur vos propres cas d’usage, avec un accompagnement humain à chaque étape." />
+        <div className="conversion-program-grid">
+          {days.map(({ number, label, title, icon: Icon, intro, items, outcome }, index) => (
+            <Reveal delay={index * .08} key={number}>
+              <motion.article className="conversion-day-card" whileHover={{ y: -7 }} transition={{ type: 'spring', stiffness: 220, damping: 21 }}>
+                <div className="conversion-day-top"><span>{number}</span><small>{label}</small><i><Icon /></i></div>
+                <h3>{title}</h3><p>{intro}</p>
+                <ul>{items.map((item) => <li key={item}><Check />{item}</li>)}</ul>
+                <div className="conversion-day-outcome"><Award /><span><small>VOUS REPARTEZ AVEC</small><b>{outcome}</b></span></div>
+              </motion.article>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="conversion-program-footer">
+          <div><ShieldCheck /><span><b>Aucun prérequis technique</b><small>Débutants bienvenus · exercices adaptés à votre activité</small></span></div>
+          <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('training').id) }} className="button button--primary">Voir les dates disponibles <ArrowRight /></a>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+function TrustSection() {
+  const voices = [
+    { image: 'testimonials/valentin.jpg', name: 'Valentin C.', role: 'Responsable pédagogique', quote: 'Des solutions innovantes qui rendent ses interventions attractives, tout en gardant les apprenants au cœur du processus.' },
+    { image: 'testimonials/chloe.jpg', name: 'Chloé P.', role: 'Agent immobilier', quote: 'Des cas pratiques qui rendent l’apprentissage beaucoup plus concret et intéressant.' },
+    { image: 'testimonials/andrea.jpg', name: 'Andréa Q.', role: 'Relation clientèle', quote: 'Une approche ludique, des supports variés et un accompagnement réellement motivant.' },
+  ]
+  return (
+    <section className="section conversion-trust" id="formateur">
+      <div className="container conversion-trust-layout">
+        <Reveal className="conversion-trainer-visual">
+          <div className="conversion-trainer-frame"><img src={assetPath('baudry-presenter.png')} alt="Baudry Bahuna, fondateur et formateur MAJUBAH Consulting" loading="lazy" /><span>FONDATEUR · FORMATEUR</span></div>
+          <div className="conversion-trainer-note">« Comprendre l’IA, c’est surtout apprendre à mieux décider. »</div>
+        </Reveal>
+        <div className="conversion-trainer-copy">
+          <span className="eyebrow">VOTRE FORMATEUR</span>
+          <h2>Baudry Bahuna.<em>La technologie, en langage humain.</em></h2>
+          <p>Consultant et formateur, Baudry accompagne les professionnels dans l’adoption concrète de l’intelligence artificielle. Moins de théorie abstraite, plus d’autonomie dès le lendemain.</p>
+          <div className="conversion-trainer-points"><span><Check /> Pédagogie accessible</span><span><Check /> Cas pratiques métier</span><span><Check /> Accompagnement humain</span></div>
+          <a className="linkedin-link" href="https://www.linkedin.com/in/baudry-bahuna/" target="_blank" rel="noreferrer"><Linkedin /> Découvrir le parcours de Baudry <ArrowRight /></a>
+        </div>
+      </div>
+      <div className="container conversion-voices">
+        {voices.map((voice, index) => (
+          <Reveal className="conversion-voice" delay={index * .06} key={voice.name}>
+            <div><img src={assetPath(voice.image)} alt="" loading="lazy" /><span><strong>{voice.name}</strong><small>{voice.role}</small></span><b>★★★★★</b></div>
+            <blockquote>« {voice.quote} »</blockquote>
+          </Reveal>
+        ))}
+      </div>
+      <div className="container conversion-podcast-strip">
+        <img src={assetPath('podcast-studio.png')} alt="Studio MAJUBAH Podcast" loading="lazy" />
+        <div><span>LE MÉDIA MAJUBAH</span><strong>MAJUBAH Podcast</strong><p>Des conversations sur la pédagogie, l’intelligence artificielle et les compétences de demain.</p></div>
+        <a href="mailto:baudry@majubahconsulting.com?subject=MAJUBAH%20Podcast%20%E2%80%94%20Recevoir%20les%20%C3%A9pisodes">Suivre les prochains épisodes <ArrowRight /></a>
+      </div>
+    </section>
+  )
+}
+
+function IncludedExperience() {
+  return (
+    <section className="section conversion-included" id="inclus">
+      <div className="container">
+        <SectionHeading eyebrow="AU-DELÀ DES TROIS JOURS" title={<>Une formation intensive.<br /><em>Un accompagnement qui continue.</em></>} body="Le Campus, les ressources et les rendez-vous pratiques prolongent la formation sans compliquer votre parcours." />
+        <div className="conversion-included-grid">
+          <Reveal className="included-campus-card">
+            <img src={assetPath('campus-dashboard.jpg')} alt="Aperçu du Campus numérique MAJUBAH" loading="lazy" />
+            <span className="included-campus-shade" />
+            <div><small>INCLUS AVEC LA FORMATION</small><h3>Campus MAJUBAH pendant 12 mois</h3><p>Replays, prompts, tutoriels, exercices et ressources complémentaires pour consolider vos nouveaux réflexes.</p><ul><li><Check /> Progression à votre rythme</li><li><Check /> Ressources mises à jour</li><li><Check /> Ateliers en direct</li></ul></div>
+          </Reveal>
+          <div className="included-options">
+            <Reveal className="included-option"><span><Users /></span><div><small>À PONT-AUDEMER</small><h3>Présentiel</h3><p>Un groupe limité à 6 participants pour pratiquer et être accompagné.</p></div><a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('onsite').id) }}>Choisir ce format <ArrowRight /></a></Reveal>
+            <Reveal className="included-option"><span><Video /></span><div><small>PARTOUT EN FRANCE</small><h3>Classe virtuelle</h3><p>La même pédagogie en direct, avec 8 à 12 participants recommandés.</p></div><a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('remote').id) }}>Choisir ce format <ArrowRight /></a></Reveal>
+            <Reveal className="included-option included-option--workshops"><span><WandSparkles /></span><div><small>UN RENDEZ-VOUS PAR MOIS</small><h3>Ateliers IA</h3><p>Une journée, un projet et un livrable concret : automatisation, assistant, vidéo, LinkedIn ou CRM.</p></div><a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('workshop').id) }}>Voir les ateliers <ArrowRight /></a></Reveal>
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -704,7 +848,7 @@ function Immersion() {
         <Reveal className="immersion-trust">
           <strong>Formation IA certifiante — 3 jours</strong>
           <div><span><Check /> Qualiopi</span><span><Check /> Éligible CPF</span><span><Check /> Campus inclus 12 mois</span></div>
-          <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar('formation-juillet') }}>Choisir une session <CalendarDays /></a>
+          <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('training').id) }}>Choisir une session <CalendarDays /></a>
         </Reveal>
       </div>
     </section>
@@ -892,13 +1036,13 @@ function Workshops() {
                   <div className="featured-orbit featured-orbit--outer"><i /><b /></div>
                   <div className="featured-orbit featured-orbit--inner"><i /></div>
                   <div className="featured-workshop-topline"><span><i /> ATELIER DU MOIS</span><small>01 / 06</small></div>
-                  <div className="featured-workshop-date"><strong>30</strong><span>JUILLET<br /><small>2026 · 14H–17H</small></span></div>
+                  <div className="featured-workshop-date"><strong>30</strong><span>JUILLET<br /><small>2026 · 1 JOURNÉE</small></span></div>
                   <div className="featured-workshop-core"><span /><MousePointer2 /></div>
                   <div className="featured-workshop-copy">
                     <small>NO-CODE & INTELLIGENCE ARTIFICIELLE</small>
                     <h3>Créer son site internet<br />avec l’IA.</h3>
                     <p>De l’idée à une première version en ligne : structure, contenus, design et publication guidés pas à pas.</p>
-                    <div><span><Clock3 /> 3h en direct</span><span><FileText /> 1 site livré</span><span><Users /> 12 places</span></div>
+                    <div><span><Clock3 /> 1 journée</span><span><FileText /> 1 site livré</span><span><Users /> 6 participants max.</span></div>
                     <button onClick={() => setFeaturedFlipped(true)}>Découvrir le programme <ArrowRight /></button>
                   </div>
                 </div>
@@ -1063,7 +1207,7 @@ function CampusJourney() {
           <span>02 — VOUS ÊTES ARRIVÉ</span>
           <h2>Tout est prêt<br />pour apprendre.</h2>
           <p>Un espace conçu pour pratiquer, échanger<br />et repartir avec de vrais réflexes.</p>
-          <div><small><Users /> 12 participants max.</small><small><Laptop /> Équipement premium</small></div>
+          <div><small><Users /> 6 participants max.</small><small><Laptop /> Équipement premium</small></div>
         </motion.div>
 
         <motion.div className="campus-scroll-cue" style={reduce ? { display: 'none' } : { x: cueX }}>
@@ -1081,8 +1225,8 @@ function Modes() {
       <div className="container">
         <SectionHeading eyebrow="DEUX FAÇONS DE NOUS REJOINDRE" title={<>Même intensité.<br /><em>À vous de choisir le lieu.</em></>} />
         <div className="modes-grid">
-          <Reveal><motion.article className="mode-card mode-card--physical" whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 220, damping: 20 }}><span className="mode-glow" /><div className="mode-orbit mode-orbit--outer"><i /><b /></div><div className="mode-orbit mode-orbit--inner"><i /></div><div className="mode-topline"><div className="mode-icon"><span /><Users /></div><small><i /> 12 PLACES</small></div><span>AU CAMPUS</span><h3>Présentiel</h3><p>Une immersion complète, des échanges spontanés et l’énergie du groupe.</p><ul><li><Check /> Pont-Audemer</li><li><Check /> Déjeuner inclus</li><li><Check /> 12 participants max.</li></ul><a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar('formation-juillet') }}><span>Choisir le présentiel</span><i><ArrowRight /></i></a></motion.article></Reveal>
-          <Reveal delay={.08}><motion.article className="mode-card mode-card--virtual" whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 220, damping: 20 }}><span className="mode-glow" /><div className="mode-orbit mode-orbit--outer"><i /><b /></div><div className="mode-orbit mode-orbit--inner"><i /></div><div className="mode-topline"><div className="mode-icon"><span /><Video /></div><small><i /> LIVE</small></div><span>EN DIRECT</span><h3>Classe virtuelle</h3><p>La même pédagogie, depuis votre bureau, avec un accompagnement en temps réel.</p><ul><li><Check /> Partout en France</li><li><Check /> Sessions interactives</li><li><Check /> Replays disponibles</li></ul><a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar('formation-remote-juillet') }}><span>Choisir la classe virtuelle</span><i><ArrowRight /></i></a></motion.article></Reveal>
+          <Reveal><motion.article className="mode-card mode-card--physical" whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 220, damping: 20 }}><span className="mode-glow" /><div className="mode-orbit mode-orbit--outer"><i /><b /></div><div className="mode-orbit mode-orbit--inner"><i /></div><div className="mode-topline"><div className="mode-icon"><span /><Users /></div><small><i /> 6 PLACES</small></div><span>AU CAMPUS</span><h3>Présentiel</h3><p>Une immersion complète, des échanges spontanés et l’énergie du groupe.</p><ul><li><Check /> Pont-Audemer</li><li><Check /> Déjeuner inclus</li><li><Check /> 6 participants max.</li></ul><a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('onsite').id) }}><span>Choisir le présentiel</span><i><ArrowRight /></i></a></motion.article></Reveal>
+          <Reveal delay={.08}><motion.article className="mode-card mode-card--virtual" whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 220, damping: 20 }}><span className="mode-glow" /><div className="mode-orbit mode-orbit--outer"><i /><b /></div><div className="mode-orbit mode-orbit--inner"><i /></div><div className="mode-topline"><div className="mode-icon"><span /><Video /></div><small><i /> LIVE</small></div><span>EN DIRECT</span><h3>Classe virtuelle</h3><p>La même pédagogie, depuis votre bureau, avec un accompagnement en temps réel.</p><ul><li><Check /> Partout en France</li><li><Check /> Sessions interactives</li><li><Check /> Replays disponibles</li></ul><a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('remote').id) }}><span>Choisir la classe virtuelle</span><i><ArrowRight /></i></a></motion.article></Reveal>
         </div>
       </div>
     </section>
@@ -1169,7 +1313,7 @@ function AICompass() {
                   <ArrowRight />
                 </a>
                 <div className="tool-list">{journey.tools.map((tool, i) => <motion.span key={tool} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: .08 + i * .06 }}><i>{i+1}</i>{tool}<small>{toolPurpose[tool] ?? 'À EXPLORER'}</small></motion.span>)}</div>
-                <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar('formation-juillet') }} className="button button--primary">Choisir une session <CalendarDays /></a>
+                <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('training').id) }} className="button button--primary">Choisir une session <CalendarDays /></a>
                 <div className="result-nav">
                   <button onClick={() => moveJourney(-1)} aria-label="Parcours précédent"><ArrowLeft /><span>Précédent</span></button>
                   <div><span>{String(active + 1).padStart(2, '0')} / {compassJourneys.length}</span><i><motion.b animate={{ width: `${((active + 1) / compassJourneys.length) * 100}%` }} transition={{ duration: .45, ease: [0.22,1,0.36,1] }} /></i></div>
@@ -1189,10 +1333,10 @@ type CompassSignupSource = 'section-boussole' | 'footer-boussole'
 function CompassSignup({ source, compact = false }: { source: CompassSignupSource; compact?: boolean }) {
   const [email, setEmail] = useState('')
   const [consent, setConsent] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
 
-  const submitSignup = (event: FormEvent<HTMLFormElement>) => {
+  const submitSignup = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const normalizedEmail = email.trim().toLowerCase()
     if (!/^\S+@\S+\.\S+$/.test(normalizedEmail)) {
@@ -1212,13 +1356,28 @@ function CompassSignup({ source, compact = false }: { source: CompassSignupSourc
       subscribedAt: new Date().toISOString(),
       source,
     }
-    window.dispatchEvent(new CustomEvent('majubah:boussole-signup', { detail: subscription }))
+    const endpoint = import.meta.env.VITE_NEWSLETTER_ENDPOINT
+    if (endpoint) {
+      setStatus('sending')
+      try {
+        const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(subscription) })
+        if (!response.ok) throw new Error('Inscription indisponible')
+        setStatus('success')
+        setMessage('Merci, votre inscription à La Boussole IA est bien prise en compte.')
+        return
+      } catch {
+        setStatus('error')
+        setMessage('L’inscription automatique est momentanément indisponible. Vous pouvez nous écrire à baudry@majubahconsulting.com.')
+        return
+      }
+    }
     setStatus('success')
-    setMessage('Merci, votre inscription à La Boussole IA est bien prise en compte.')
+    setMessage('Votre messagerie s’ouvre pour confirmer votre inscription à La Boussole IA.')
+    window.location.href = `mailto:baudry@majubahconsulting.com?subject=${encodeURIComponent('Inscription à La Boussole IA')}&body=${encodeURIComponent(`Bonjour Baudry,\n\nJe souhaite recevoir La Boussole IA à l’adresse ${normalizedEmail}.\n\nJ’accepte de recevoir les conseils IA et les informations de MAJUBAH Consulting.`)}`
   }
 
   return (
-    <section id={source === 'section-boussole' ? 'boussole-inscription' : undefined} className={`compass-signup compass-signup--${compact ? 'closing' : 'editorial'}`}>
+    <section id="boussole-inscription" className={`compass-signup compass-signup--${compact ? 'closing' : 'editorial'}`}>
       <div className="container">
         <Reveal className="compass-signup-card">
           <div className="compass-signup-copy">
@@ -1237,7 +1396,7 @@ function CompassSignup({ source, compact = false }: { source: CompassSignupSourc
                 <div className="compass-signup-field">
                   <label htmlFor={`boussole-email-${source}`}>Votre adresse email</label>
                   <input id={`boussole-email-${source}`} type="email" inputMode="email" autoComplete="email" placeholder="vous@entreprise.fr" value={email} onChange={(event) => { setEmail(event.target.value); if (status === 'error') setStatus('idle') }} aria-describedby={`boussole-message-${source}`} />
-                  <button type="submit">Recevoir la Boussole IA <ArrowRight /></button>
+                  <button type="submit" disabled={status === 'sending'}>{status === 'sending' ? 'Inscription…' : 'Recevoir la Boussole IA'} <ArrowRight /></button>
                 </div>
                 <label className="compass-signup-consent"><input type="checkbox" checked={consent} onChange={(event) => { setConsent(event.target.checked); if (status === 'error') setStatus('idle') }} /><span><i><Check /></i>J’accepte de recevoir les conseils IA et les informations de MAJUBAH Consulting.</span></label>
                 <div className="compass-signup-meta"><small>Un email par semaine. Pas de spam. Désinscription possible à tout moment.</small><span id={`boussole-message-${source}`} className={status === 'error' ? 'error' : ''} role="status">{status === 'error' ? message : ''}</span></div>
@@ -1425,7 +1584,7 @@ function Pricing() {
               <li><Check /> Confirmation après échange avec MAJUBAH</li>
             </ul>
             <div className="pricing-campus-bonus"><Laptop /><span><small>BONUS INCLUS</small><b>Campus MAJUBAH pendant 12 mois</b><em>Valeur indicative : 249 € / an</em></span></div>
-            <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar('formation-juillet') }} className="button button--primary">Demander ma place <ArrowRight /></a>
+            <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('training').id) }} className="button button--primary">Voir les dates <ArrowRight /></a>
           </Reveal>
 
           <Reveal className="pricing-card pricing-card--workshop" delay={.08}>
@@ -1433,7 +1592,7 @@ function Pricing() {
             <div className="pricing-amount"><span><small>Tarif lancement</small><b>390 €</b><em>/ participant</em></span><div><small>Prix public prévu</small><strong>590 €</strong></div></div>
             <p>Une journée pour repartir avec un livrable concret : site, CRM, contenu LinkedIn, assistant IA, vidéo ou automatisation.</p>
             <div className="pricing-workshop-proof"><Check /><span><b>Format intensif et pratique</b><small>Demande de place sans paiement immédiat</small></span></div>
-            <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar('atelier-aout') }} className="button pricing-secondary-button">Choisir un atelier <ArrowRight /></a>
+            <a href="#reserver" onClick={(event) => { event.preventDefault(); openBookingCalendar(findNextAgendaEvent('workshop').id) }} className="button pricing-secondary-button">Choisir un atelier <ArrowRight /></a>
           </Reveal>
         </div>
         <p className="pricing-footnote">Tarifs de lancement proposés pour accompagner les premières sessions MAJUBAH.</p>
@@ -1443,9 +1602,9 @@ function Pricing() {
 }
 
 function FAQ() {
-  const [open, setOpen] = useState(0)
+  const [open, setOpen] = useState(-1)
   return (
-    <section className="section faq-section">
+    <section className="section faq-section" id="faq">
       <div className="container faq-layout">
         <div><SectionHeading eyebrow="QUESTIONS FRÉQUENTES" title={<>Tout ce qu’il faut savoir<br /><em>avant d’entrer.</em></>} align="left" /><Reveal><a className="faq-contact" href="mailto:baudry@majubahconsulting.com?subject=Question%20sur%20les%20formations%20MAJUBAH&body=Bonjour%20Baudry%2C%0A%0AJ%27aimerais%20obtenir%20une%20pr%C3%A9cision%20concernant%20les%20formations%20ou%20ateliers%20MAJUBAH.%0A%0AMa%20question%20%3A%20%0A%0AMerci%20par%20avance."><MessageSquareText /> Une autre question ?<b>Parlons-en</b></a></Reveal></div>
         <div className="faq-list">
@@ -1457,8 +1616,11 @@ function FAQ() {
 }
 
 function Booking() {
-  const [visibleMonth, setVisibleMonth] = useState(0)
-  const [selectedEvent, setSelectedEvent] = useState(0)
+  const initialEventIndex = Math.max(agendaEvents.findIndex((event) => event.id === findNextAgendaEvent('training').id), 0)
+  const initialEvent = agendaEvents[initialEventIndex]
+  const initialMonthIndex = Math.max(agendaMonths.findIndex((month) => month.year === initialEvent.year && month.month === initialEvent.month), 0)
+  const [visibleMonth, setVisibleMonth] = useState(initialMonthIndex)
+  const [selectedEvent, setSelectedEvent] = useState(initialEventIndex)
   const [justSelected, setJustSelected] = useState(false)
   const [formOpen, setFormOpen] = useState(false)
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
@@ -1547,16 +1709,8 @@ function Booking() {
     <section className="booking-section" id="reserver">
       <div className="booking-glow" />
       <div className="container">
-        <div className="booking-copy booking-copy--top"><span className="eyebrow eyebrow--light">PROCHAINE ÉTAPE</span><h2>Prêt à travailler<br /><em>autrement avec l’IA ?</em></h2><p>Choisissez votre session. Notre équipe vous rappelle pour confirmer le format et votre financement.</p><div className="booking-badges"><span><ShieldCheck /> Éligible CPF</span><span><Award /> Formation certifiante</span><span><Clock3 /> Réponse sous 24h</span></div></div>
-        <div className="booking-layout">
-          <motion.div className="booking-robot-stage" initial={{ opacity: 0, scale: .94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: .25 }} transition={{ duration: .8, ease: [0.22,1,0.36,1] }}>
-            <div className="robot-stage-grid" />
-            <div className="robot-stage-glow" />
-            <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="majubah-robot-scene" />
-            <div className="robot-stage-status"><i /><span>GUIDE MAJUBAH</span><small>EN LIGNE</small></div>
-            <div className="robot-stage-hint"><MousePointer2 /><span>Interagissez<br />avec le robot</span></div>
-            <div className="spline-brand-cover" aria-hidden="true"><img src={assetPath('majubah-horizontal.png')} alt="" /></div>
-          </motion.div>
+        <div className="booking-copy booking-copy--top"><span className="eyebrow eyebrow--light">DATES ET PRÉINSCRIPTION</span><h2>Choisissez une date.<br /><em>Nous confirmons ensemble.</em></h2><p>Sélectionnez votre session puis envoyez une demande sans engagement. Votre place est confirmée après échange avec MAJUBAH.</p><div className="booking-badges">{selected.type !== 'workshop' && <span><Award /> Formation certifiante</span>}<span><ShieldCheck /> {selected.type === 'workshop' ? selected.capacity : 'CPF / OPCO possible selon dossier'}</span><span><Clock3 /> Aucun paiement en ligne</span></div></div>
+        <div className="booking-layout booking-layout--focused">
           <div className={`booking-card-shell ${formOpen ? 'booking-card-shell--form' : ''} ${justSelected ? 'booking-card--targeted' : ''}`}>
             <motion.div className="booking-card-flipper" animate={{ rotateY: formOpen ? 180 : 0 }} transition={{ type: 'spring', stiffness: 90, damping: 19 }}>
               <div className="booking-card booking-card-face booking-card-face--front" aria-hidden={formOpen}>
@@ -1585,7 +1739,7 @@ function Booking() {
                   <div className="agenda-legend"><span><i className="onsite" /> Présentiel · 3 jours</span><span><i className="remote" /> Distanciel · 3 jours</span><span><i className="workshop" /> Atelier · 1 jour</span></div>
                 </div>
                 <button type="button" onClick={() => setFormOpen(true)} className="button button--primary booking-button">Demander ma place <ArrowRight /></button>
-                <p className="booking-note">CPF possible selon délai administratif · Aucun paiement en ligne</p>
+                <p className="booking-note">{selected.type === 'workshop' ? 'Demande sans engagement' : 'CPF / OPCO possible selon dossier et délais'} · Aucun paiement en ligne</p>
               </div>
 
               <div className="booking-card booking-card-face booking-card-face--back" aria-hidden={!formOpen}>
@@ -1604,7 +1758,7 @@ function Booking() {
                       <label className="prebooking-field--wide"><span>Financement envisagé</span><select value={formData.funding} onChange={(event) => updateField('funding', event.target.value)}><option>Direct</option><option>CPF</option><option>OPCO</option></select></label>
                     </div>
                     <div className="prebooking-reminder"><ShieldCheck /><span><b>{selected.modality === 'Présentiel' ? 'Présentiel limité à 6 participants' : 'Classe virtuelle disponible'}</b><small>{formData.funding === 'CPF' ? 'CPF possible selon délai administratif' : 'Votre place sera confirmée après échange avec MAJUBAH'}</small></span></div>
-                    <button type="submit" disabled={formStatus === 'sending'} className="button button--primary booking-button">{formStatus === 'sending' ? 'Transmission…' : 'Envoyer ma demande'} <ArrowRight /></button>
+                    <button type="submit" disabled={formStatus === 'sending'} className="button button--primary booking-button">{formStatus === 'sending' ? 'Transmission…' : 'Envoyer ma demande de préinscription'} <ArrowRight /></button>
                     <p className="booking-note">Demande sans engagement · Aucun paiement en ligne</p>
                   </form>
                 )}
@@ -1618,7 +1772,7 @@ function Booking() {
 }
 
 function Footer() {
-  return <footer className="footer"><div className="container footer-top"><Logo light /><p>Le campus où les professionnels apprennent à travailler avec l’intelligence artificielle.</p><div><a href="#programme">Formation</a><a href="#campus-digital">Campus</a><a href="#ateliers">Ateliers</a></div><div><a href="mailto:baudry@majubahconsulting.com?subject=Prise%20de%20contact%20depuis%20le%20site%20MAJUBAH&body=Bonjour%20Baudry%2C%0A%0AJe%20vous%20contacte%20depuis%20le%20site%20MAJUBAH%20au%20sujet%20de%20vos%20formations%20et%20ateliers.%0A%0AMerci%20de%20me%20recontacter.%0A%0ABien%20cordialement.">Contact</a><a href={`${import.meta.env.BASE_URL}mentions-legales.html`}>Mentions légales</a><a href={`${import.meta.env.BASE_URL}conditions-generales-de-vente.html`}>Conditions générales de vente</a><a href={`${import.meta.env.BASE_URL}confidentialite.html`}>Confidentialité &amp; cookies</a></div></div><div className="container footer-bottom"><span>© 2026 MAJUBAH Consulting</span><span>Site créé par Baudry Bahuna — Fondateur de MAJUBAH Consulting</span><a href="#top">Retour en haut ↑</a></div></footer>
+  return <footer className="footer"><div className="container footer-top"><Logo light /><p>Le campus où les professionnels apprennent à travailler avec l’intelligence artificielle.</p><div><a href="#programme">Programme</a><a href="#preuves">Résultats</a><a href="#inclus">Campus inclus</a><a href="#tarifs">Tarifs</a><a href="#boussole-inscription">Boussole IA</a></div><div><a href="mailto:baudry@majubahconsulting.com?subject=Prise%20de%20contact%20depuis%20le%20site%20MAJUBAH&body=Bonjour%20Baudry%2C%0A%0AJe%20vous%20contacte%20depuis%20le%20site%20MAJUBAH%20au%20sujet%20de%20vos%20formations%20et%20ateliers.%0A%0AMerci%20de%20me%20recontacter.%0A%0ABien%20cordialement.">Contact</a><a href={`${import.meta.env.BASE_URL}mentions-legales.html`}>Mentions légales</a><a href={`${import.meta.env.BASE_URL}conditions-generales-de-vente.html`}>Conditions générales de vente</a><a href={`${import.meta.env.BASE_URL}confidentialite.html`}>Confidentialité &amp; cookies</a></div></div><div className="container footer-bottom"><span>© 2026 MAJUBAH Consulting</span><span>Site créé par Baudry Bahuna — Fondateur de MAJUBAH Consulting</span><a href="#top">Retour en haut ↑</a></div></footer>
 }
 
 function DailyRitual() {
@@ -1678,27 +1832,17 @@ export default function App() {
   return (
     <>
       <Header />
-      <main>
+      <main className="conversion-home">
         <Hero />
-        <AIOrchestra />
-        <Method />
+        <ConversionProof />
+        <ThreeDayProgram />
         <Immersion />
-        <Skills />
-        <DigitalCampus />
-        <Workshops />
-        <Trainer />
-        <Podcast />
-        <CampusJourney />
-        <Modes />
-        <AICompass />
-        <CompassSignup source="section-boussole" />
-        <Testimonials />
-        <TrainTheTrainer />
+        <TrustSection />
+        <IncludedExperience />
         <Pricing />
         <FAQ />
         <Booking />
         <CompassSignup source="footer-boussole" compact />
-        <DailyRitual />
       </main>
       <Footer />
     </>
