@@ -7,8 +7,9 @@
     "dev": "vite --open /index.source.html",
     "build": "tsc -b && vite build && mv dist/index.source.html dist/index.html",
     "release:pages": "npm run build && rsync -a --delete dist/assets/ assets/ && cp dist/index.html index.html && cp dist/mentions-legales.html mentions-legales.html && cp dist/conditions-generales-de-vente.html conditions-generales-de-vente.html && cp dist/confidentialite.html confidentialite.html && cp dist/favicon-32.png favicon-32.png && cp dist/apple-touch-icon.png apple-touch-icon.png",
-    "preview": "vite preview",
-    "lint": "tsc -b --pretty false"
+    "preview": "npm run build && wrangler dev",
+    "lint": "tsc -b --pretty false",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@splinetool/react-spline": "^4.1.0",
@@ -18,6 +19,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.44.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
@@ -25,6 +27,7 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
     "typescript": "^5.7.2",
-    "vite": "^6.0.3"
+    "vite": "^6.0.3",
+    "wrangler": "^4.110.0"
   }
 }
